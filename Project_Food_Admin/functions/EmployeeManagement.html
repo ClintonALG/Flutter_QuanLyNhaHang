@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Nhân viên</title>
+    <link rel="stylesheet" href="../css/displayFood.css">
+    <link rel="stylesheet" href="../css/share.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .emp-container { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .emp-container h1 { font-size: 22px; margin-bottom: 20px; color: #333; }
+        .emp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .btn-add-emp { background: #1976d2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-add-emp:hover { background: #1565c0; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        th { background: #f8f9fa; padding: 12px 16px; text-align: left; font-size: 13px; color: #666; border-bottom: 1px solid #eee; }
+        td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+        .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-admin { background: #e3f2fd; color: #1565c0; }
+        .badge-nv { background: #e8f5e9; color: #2e7d32; }
+        .btn-edit { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #1976d2; color: white; }
+        .btn-delete { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #d32f2f; color: white; }
+        .form-emp { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; display: none; }
+        .form-emp.show { display: block; }
+        .form-emp h3 { margin-bottom: 16px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 13px; color: #555; }
+        .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-state i { font-size: 48px; margin-bottom: 12px; color: #ccc; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="nav-header">
+                <img src="../imgs/logo/logo.png" alt="" width="78px">
+            </div>
+            <div class="side-left">
+                <ul class="side-menu">
+                    <li><a href="./DisplayFood.html"><i class="fa-solid fa-list"></i><span>Danh sách món ăn</span></a></li>
+                    <li><a href="./TableManagement.html"><i class="fa-solid fa-table"></i><span>Quản lý bàn</span></a></li>
+                    <li><a href="./Analytics.html"><i class="fa-solid fa-chart-simple"></i><span>Thống kê</span></a></li>
+                    <li><a href="./VoucherManagement.html"><i class="fa-solid fa-tag"></i><span>Voucher</span></a></li>
+                    <li><a href="./EmployeeManagement.html"><i class="fa-solid fa-users"></i><span>Nhân viên</span></a></li>
+                    <li><a href="#" onclick="logout(); return false;"><i class="fa-solid fa-sign-out-alt"></i><span>Đăng xuất</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="emp-container">
+                <div class="emp-header">
+                    <h1><i class="fa-solid fa-users"></i> Quản lý Nhân viên</h1>
+                    <button class="btn-add-emp" onclick="showAddForm()">+ Thêm nhân viên</button>
+                </div>
+
+                <div class="form-emp" id="formEmp">
+                    <h3 id="formTitle">Thêm nhân viên</h3>
+                    <input type="hidden" id="empId" value="">
+                    <div class="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text" id="empUsername" placeholder="VD: nhanvien3">
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu <span id="pwHint" style="font-weight:400;color:#999;">(để trống nếu không đổi)</span></label>
+                        <input type="password" id="empPassword" placeholder="Nhập mật khẩu">
+                    </div>
+                    <div class="form-group">
+                        <label>Họ tên</label>
+                        <input type="text" id="empName" placeholder="VD: Nguyễn Văn C">
+                    </div>
+                    <div class="form-group">
+                        <label>Vai trò</label>
+                        <select id="empRole">
+                            <option value="Quản lý">Quản lý</option>
+                            <option value="Nhân viên" selected>Nhân viên</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-add-emp" onclick="saveEmployee()">Lưu</button>
+                        <button class="btn-add-emp" style="background:#888;" onclick="hideForm()">Hủy</button>
+                    </div>
+                </div>
+
+                <div id="empList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script>
+        const API = API_BASE;
+        let editingId = null;
+
+        function showAddForm() {
+            editingId = null;
+            document.getElementById('empId').value = '';
+            document.getElementById('empUsername').value = '';
+            document.getElementById('empPassword').value = '';
+            document.getElementById('empPassword').required = true;
+            document.getElementById('pwHint').style.display = 'none';
+            document.getElementById('empName').value = '';
+            document.getElementById('empRole').value = 'Nhân viên';
+            document.getElementById('formTitle').textContent = 'Thêm nhân viên';
+            document.getElementById('formEmp').classList.add('show');
+        }
+
+        function showEditForm(id, username, name, role) {
+            editingId = id;
+            document.getElementById('empId').value = id;
+            document.getElementById('empUsername').value = username;
+            document.getElementById('empPassword').value = '';
+            document.getElementById('empPassword').required = false;
+            document.getElementById('pwHint').style.display = 'inline';
+            document.getElementById('empName').value = name;
+            document.getElementById('empRole').value = role;
+            document.getElementById('formTitle').textContent = 'Sửa nhân viên';
+            document.getElementById('formEmp').classList.add('show');
+        }
+
+        function hideForm() {
+            document.getElementById('formEmp').classList.remove('show');
+        }
+
+        async function loadEmployees() {
+            const container = document.getElementById('empList');
+            try {
+                const res = await fetch(API + '/employees');
+                const data = await res.json();
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-users"></i><p>Chưa có nhân viên nào</p></div>';
+                    return;
+                }
+                let html = '<table><thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Vai trò</th><th>Hành động</th></tr></thead><tbody>';
+                data.forEach(e => {
+                    const isAdmin = e.VaiTro === 'Quản lý' || e.VaiTro === 'Admin';
+                    html += `<tr>
+                        <td><strong>${e.TenDangNhap}</strong></td>
+                        <td>${e.HoTen}</td>
+                        <td><span class="badge ${isAdmin ? 'badge-admin' : 'badge-nv'}">${e.VaiTro}</span></td>
+                        <td style="white-space:nowrap">
+                            <button class="btn-edit" onclick='showEditForm(${e.Id},"${e.TenDangNhap}","${e.HoTen}","${e.VaiTro}")'>Sửa</button>
+                            <button class="btn-delete" onclick="deleteEmployee(${e.Id})">Xóa</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><p>Lỗi tải dữ liệu</p></div>';
+            }
+        }
+
+        async function saveEmployee() {
+            const tenDangNhap = document.getElementById('empUsername').value.trim();
+            const matKhau = document.getElementById('empPassword').value;
+            const hoTen = document.getElementById('empName').value.trim();
+            const vaiTro = document.getElementById('empRole').value;
+            if (!tenDangNhap || !hoTen) { alert('Vui lòng nhập đủ thông tin'); return; }
+            if (!editingId && !matKhau) { alert('Vui lòng nhập mật khẩu'); return; }
+
+            try {
+                let res;
+                if (editingId) {
+                    res = await fetch(API + '/employees/' + editingId, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ tenDangNhap, matKhau: matKhau || null, hoTen, vaiTro })
+                    });
+                } else {
+                    res = await fetch(API + '/employees', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ tenDangNhap, matKhau, hoTen, vaiTro })
+                    });
+                }
+                const result = await res.json();
+                if (res.ok) {
+                    alert(editingId ? 'Sửa nhân viên thành công' : 'Thêm nhân viên thành công');
+                    hideForm();
+                    loadEmployees();
+                } else {
+                    alert('Lỗi: ' + (result.message || ''));
+                }
+            } catch (e) { alert('Lỗi kết nối'); }
+        }
+
+        async function deleteEmployee(id) {
+            if (!confirm('Xóa nhân viên này?')) return;
+            try {
+                const res = await fetch(API + '/employees/' + id, { method: 'DELETE' });
+                const result = await res.json();
+                if (res.ok) {
+                    loadEmployees();
+                } else {
+                    alert('Lỗi: ' + (result.message || ''));
+                }
+            } catch (e) { alert('Lỗi kết nối'); }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEmployees);
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Quản lý nhà hàng</title>
+
+    <link rel="stylesheet" href="./css/displayFood.css">
+    <link rel="stylesheet" href="./css/share.css">
+    <link rel="stylesheet" href="./css/inventory.css">
+    <link rel="stylesheet" href="./css/analytics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Dữ liệu từ SQL Server qua API backend (Node.js) -->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="nav-header">
+                <img src="./imgs/logo/logo.png" alt="logo">
+            </div>
+
+            <div class="side-left">
+                <ul class="side-menu">
+                    <li class="active">
+                        <a href="./functions/DisplayFood.html">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Danh sách món ăn</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./functions/TableManagement.html">
+                            <i class="fa-solid fa-table"></i>
+                            <span>Quản lý bàn</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./functions/Analytics.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span>Thống kê</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./functions/VoucherManagement.html">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Voucher</span>
+                        </a>
+                    </li>
+                    <li style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <a href="#" onclick="logout(); return false;">
+                            <i class="fa-solid fa-sign-out-alt"></i>
+                            <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <h2 style="padding:24px;text-align:center;">Quản lý nhà hàng</h2>
+            <p style="text-align:center;color:#666;">Chọn chức năng từ menu bên trái</p>
+        </div>
+    </div>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/sidebar.js"></script>
+</body>
+
+</html>

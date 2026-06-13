@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* side menu */
+.side-menu li span {
+    font-size: 15px;
+}
+
+
+
+/*  */
+/* Begin: statistics */
+.main .statistics {
+    border: 2px solid #3498dbbd;
+    margin: 18px 20px 2px 20px;
+    padding: 21px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#total-products,
+#total-products-sold {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+/* End: statistics */
+
+/* Begin: Date range picker */
+.container-fluid {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.main .form-group label {
+    /* padding: 10px 34px; */
+}
+
+.main .form-group>input {
+    /* background-color: rgba(204, 216, 159, 0.157); */
+    margin-top: 10px;
+    /* margin: 0 0 0 30px; */
+}
+
+/* End: Date range picker */
+
+
+/*  */
+/* Begin: Analytics */
+.main .analytics,
+.detail-analytics,
+.detail-ingredient {
+    border: 2px solid #3498dbbd;
+    background-color: aliceblue;
+    border-radius: 10px;
+    padding: 21px;
+
+    margin: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.main .revenue-filter {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    cursor: pointer;
+
+}
+
+.revenue-filter li .filter-btn {
+    padding: 6px 18px;
+    background-color: 2ecc71;
+}
+
+
+/* End: Analytics */

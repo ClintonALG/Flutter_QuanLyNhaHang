@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1745333568161,
+    "name": "Nước ngọt 7Up",
+    "description": "  Lượng ga Có ga Lượng đường.Có đường Thể tích 320ml",
+    "price": 11000,
+    "quantity": 12,
+    "image": "/imgs/products/7up.jpg",
+    "category": "drink"
+  },
+  {
+    "id": 1745333696784,
+    "name": "Nước ngọt Coca Cola",
+    "description": " Lượng ga\t Có ga Lượng đường.Có đường Thể tích\t 320ml",
+    "price": 11000,
+    "quantity": 20,
+    "image": "/imgs/products/coca-cola.jpg",
+    "category": "drink"
+  },
+  {
+    "id": 1745333806630,
+    "name": "Nước ngọt Pepsi",
+    "description": "Lượng ga\t Có ga Lượng đường\t Có đường Thể tích\t 330ml",
+    "price": 11000,
+    "quantity": 9,
+    "image": "/imgs/products/pepsi.jpg",
+    "category": "drink"
+  },
+  {
+    "id": 1745333947327,
+    "name": "Pizza Phô Mai Cheese & Dough 45cm 1kg",
+    "description": "Pizza Phô Mai Cheese & Dough 45cm Ba loại phô mai Mozzarella, Parmesan và Cheddar Đế bánh mỏng giòn, phô mai béo ngậy Kích thước 45cm, phù hợp cho gia đình Bánh làm mới mỗi ngày Thành phần: bột mì, đường, dầu rán, men khô, muối, nước, cà chua, tiêu, lá oregano, ba loại phô mai",
+    "price": 220000,
+    "quantity": 19,
+    "image": "/imgs/products/pizza-phomai.webp",
+    "category": "food"
+  },
+  {
+    "id": 1745334051183,
+    "name": "Pizza Truyền Thống Cheese & Dough 1 Miếng 200g",
+    "description": "Đế bánh mỏng giòn, phô mai béo tan chảy Nhiều thành phần đặc biệt tạo nên bánh nhiều màu sắc, hương vị đậm đà Quy cách: 1 Miếng Bánh làm mới mỗi ngày Thành phần: ô liu đen, gia vị Hàn Quốc, phô mai, pepperoni, dăm bông",
+    "price": 40000,
+    "quantity": 11,
+    "image": "/imgs/products/pizza-truyen-thong-cheese.webp",
+    "category": "food"
+  },
+  {
+    "id": 1745334123409,
+    "name": "Set Pizza Cuộn Cheese & Dough 200G",
+    "description": "Vỏ bánh mềm dai, nhân phô mai béo ngậy và dăm bông đậm đà   Bánh nướng vàng nhẹ, giòn ngoài, mềm ẩm bên trong   Thịt dăm bông mềm, vị mặn nhẹ, kết hợp với phô mai tạo vị đậm đà   Cuộn thành phần nhỏ gọn, dễ dàng thưởng thức   Thành phần: bột bánh, dăm bông, phô mai mozzarella bào, hành tây, oliu lát, phô mai parmesan, lá ngò tây",
+    "price": 45000,
+    "quantity": 4,
+    "image": "/imgs/products/pizza-cuon-cheese.webp",
+    "category": "food"
+  },
+  {
+    "id": 1748667629173,
+    "name": "Set Pizza Cuộn Cheese & Dough 200G",
+    "description": "1432",
+    "price": 134243,
+    "quantity": 2342,
+    "image": "/imgs/products/pizza-phomai-mat-ong-cheese.webp",
+    "category": "food"
+  }
+]

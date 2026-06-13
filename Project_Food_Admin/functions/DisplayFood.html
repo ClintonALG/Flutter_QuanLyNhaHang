@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Food</title>
+
+    <link rel="stylesheet" href="../css/displayFood.css">
+    <link rel="stylesheet" href="../css/share.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Dữ liệu từ SQL Server qua API backend (Node.js) -->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="nav-header">
+                <img src="../imgs/logo/logo.png" alt="logo">
+
+            </div>
+
+            <div class="side-left">
+                <ul class="side-menu">
+                    <li>
+                        <a href="./DisplayFood.html">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Danh sách món ăn</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./Analytics.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span>Thống kê </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./TableManagement.html">
+                            <i class="fa-solid fa-table"></i>
+                            <span>Quản lý bàn</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./VoucherManagement.html">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Voucher</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./EmployeeManagement.html">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Nhân viên</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="logout(); return false;">
+                            <i class="fa-solid fa-sign-out-alt"></i>
+                            <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="menu">
+                <div class="product-page">
+
+                    <!-- Tìm kiếm -->
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
+                        <button class="search-btn">Tìm kiếm</button>
+                    </div>
+
+                    <!-- Phân loại -->
+                    <div class="category-filter">
+                        <button data-category="all">Tất cả</button>
+                        <button data-category="Đồ ăn">Đồ ăn</button>
+                        <button data-category="Đồ uống">Đồ uống</button>
+                        <button data-category="Tráng miệng">Tráng miệng</button>
+                    </div>
+
+                    <div class="add-product">
+                        <button id="add-product" class="add-btn center">Thêm món ăn</button>
+
+                        <!-- Form thêm món ăn -->
+                        <form action="" id="product-form" style="display: none;" novalidate>
+
+                            <h1 for="">THÊM MÓN ĂN</h1>
+
+                            <label for="">
+                                <span>Tên sản phẩm: </span>
+                                <input type="text" id="product-name" placeholder="Ví dụ: pizza" required>
+                            </label>
+
+                            <label for="">
+                                <span>Phân loại</span>
+                                <select name="" id="product-category" required>
+                                    <option value="Đồ ăn">Đồ ăn</option>
+                                    <option value="Đồ uống">Đồ uống</option>
+                                    <option value="Tráng miệng">Tráng miệng</option>
+                                </select>
+                            </label>
+
+                            <label for="">
+                                <span>Mô tả: </span>
+                                <input type="text" id="product-des" placeholder="Ví dụ: Ngon, thơm, béo" required>
+                            </label>
+
+                            <label for="">
+                                <span>Giá: </span>
+                                <input type="number" id="product-price" placeholder="Ví dụ: 25000" required>
+
+                            </label>
+
+                            <label for="">
+                                <span>Ảnh sản phẩm: </span>
+                                <input type="file" id="product-img" name="image" accept="image/*"
+                                    src="../functions/imgs/products/pizza.jpg" alt="Ảnh sản phẩm">
+
+                            </label>
+                            <div class="form-btns">
+                                <button type="submit" class="submit-btn add-btn">Lưu</button>
+                                <button type="button" id="cancel-btn" class="add-btn">Hủy</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tác vụ -->
+                    <div class="delete-product">
+                        <button id="delete-selected" class="delete-btn">Xóa mục đã chọn</button>
+                    </div>
+                    <!--  Bảng sản phẩm -->
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selected-all"></th>
+                                <th>STT</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Mô tả</th>
+                                <th>Giá</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--  dòng sản phẩm -->
+                            <tr data-category="drink" data-id="1">
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>1</td>
+                                <td><img src="/imgs/products/pizza.jpg" alt="Ảnh" class="product-img"></td>
+                                <td>Trà sữa</td>
+                                <td>Ngon, thơm, béo</td>
+                                <td>35.000₫</td>
+                                <td><span class="badge badge-ok">Active</span></td>
+                                <td>
+                                    <!-- <button class="add-btn">Thêm</button> -->
+                                    <button class="edit-btn">Sửa</button>
+                                    <!-- <button class="delete-btn">Xóa</button> -->
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/DisplayFood/loadMenu.js"></script>
+    <script src="../js/DisplayFood/search.js"></script>
+    <script src="../js/DisplayFood/category.js"></script>
+    <script src="../js/DisplayFood/selectAll.js"></script>
+    <script src="../js/DisplayFood/addProduct.js"></script>
+    <script src="../js/DisplayFood/deleteProduct.js"></script>
+
+</body>
+
+</html>

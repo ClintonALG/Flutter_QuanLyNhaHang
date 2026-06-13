@@ -1,0 +1,24 @@
+name: food_manager_project
+description: "Quản lý nhà hàng - Kết nối SQL Server qua API"
+publish_to: 'none'
+version: 2.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  intl: ^0.20.2
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images_foods/

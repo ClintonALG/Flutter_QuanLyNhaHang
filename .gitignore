@@ -1,0 +1,5 @@
+﻿node_modules/
+food_manager_project/.dart_tool/
+food_manager_project/build/
+food_manager_project/.packages
+food_manager_project/.flutter-plugins*

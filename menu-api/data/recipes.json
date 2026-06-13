@@ -1,0 +1,248 @@
+[
+    {
+        "productId": 1745333568161,
+        "productName": "Nước ngọt 7Up",
+        "ingredients": [
+            {
+                "ingredientId": 1,
+                "ingredientName": "Đường (Sugar)",
+                "amount": 50,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 2,
+                "ingredientName": "Nước (Water)",
+                "amount": 300,
+                "unit": "ml"
+            },
+            {
+                "ingredientId": 3,
+                "ingredientName": "Hương chanh (Lime Flavoring)",
+                "amount": 5,
+                "unit": "ml"
+            }
+        ]
+    },
+    {
+        "productId": 1745333696784,
+        "productName": "Nước ngọt Coca Cola",
+        "ingredients": [
+            {
+                "ingredientId": 1,
+                "ingredientName": "Đường (Sugar)",
+                "amount": 60,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 2,
+                "ingredientName": "Nước (Water)",
+                "amount": 300,
+                "unit": "ml"
+            },
+            {
+                "ingredientId": 4,
+                "ingredientName": "Hương cola (Cola Flavoring)",
+                "amount": 5,
+                "unit": "ml"
+            }
+        ]
+    },
+    {
+        "productId": 1745333806630,
+        "productName": "Nước ngọt Pepsi",
+        "ingredients": [
+            {
+                "ingredientId": 1,
+                "ingredientName": "Đường (Sugar)",
+                "amount": 55,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 2,
+                "ingredientName": "Nước (Water)",
+                "amount": 310,
+                "unit": "ml"
+            },
+            {
+                "ingredientId": 5,
+                "ingredientName": "Hương cola (Pepsi Flavoring)",
+                "amount": 5,
+                "unit": "ml"
+            }
+        ]
+    },
+    {
+        "productId": 1745333947327,
+        "productName": "Pizza Phô Mai Cheese & Dough 45cm 1kg",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 400,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 300,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 8,
+                "ingredientName": "Nước sốt cà chua (Tomato Sauce)",
+                "amount": 100,
+                "unit": "gram"
+            }
+        ]
+    },
+    {
+        "productId": 1745334051183,
+        "productName": "Pizza Truyền Thống Cheese & Dough 1 Miếng 200g",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 80,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 60,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 8,
+                "ingredientName": "Nước sốt cà chua (Tomato Sauce)",
+                "amount": 20,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 9,
+                "ingredientName": "Thịt pepperoni",
+                "amount": 20,
+                "unit": "gram"
+            }
+        ]
+    },
+    {
+        "productId": 1745334123409,
+        "productName": "Set Pizza Cuộn Cheese & Dough 200G",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 90,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 60,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 10,
+                "ingredientName": "Dăm bông",
+                "amount": 30,
+                "unit": "gram"
+            }
+        ]
+    },
+    {
+        "productId": 1746534926461,
+        "productName": "tm",
+        "ingredients": [
+            {
+                "ingredientId": 1,
+                "ingredientName": "Đường (Sugar)",
+                "amount": 50,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 2,
+                "ingredientName": "Nước (Water)",
+                "amount": 300,
+                "unit": "ml"
+            },
+            {
+                "ingredientId": 11,
+                "ingredientName": "Hương trái cây (Fruit Flavoring)",
+                "amount": 5,
+                "unit": "ml"
+            }
+        ]
+    },
+    {
+        "productId": 1746540356790,
+        "productName": "12313",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 100,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 50,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 8,
+                "ingredientName": "Nước sốt cà chua (Tomato Sauce)",
+                "amount": 30,
+                "unit": "gram"
+            }
+        ]
+    },
+    {
+        "productId": 1746540456570,
+        "productName": "fdssd",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 100,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 50,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 8,
+                "ingredientName": "Nước sốt cà chua (Tomato Sauce)",
+                "amount": 30,
+                "unit": "gram"
+            }
+        ]
+    },
+    {
+        "productId": 1746540496845,
+        "productName": "543",
+        "ingredients": [
+            {
+                "ingredientId": 6,
+                "ingredientName": "Bột mì (Flour)",
+                "amount": 100,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 7,
+                "ingredientName": "Phô mai (Cheese)",
+                "amount": 50,
+                "unit": "gram"
+            },
+            {
+                "ingredientId": 8,
+                "ingredientName": "Nước sốt cà chua (Tomato Sauce)",
+                "amount": 30,
+                "unit": "gram"
+            }
+        ]
+    }
+]

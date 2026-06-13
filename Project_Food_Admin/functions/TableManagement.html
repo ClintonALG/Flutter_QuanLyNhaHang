@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bàn</title>
+    <link rel="stylesheet" href="../css/displayFood.css">
+    <link rel="stylesheet" href="../css/share.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        .table-controls {
+            display: flex; gap: 12px; padding: 16px 16px 0; flex-wrap: wrap;
+            align-items: center;
+        }
+        .table-controls input {
+            flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid #ddd;
+            border-radius: 8px; font-size: 14px; outline: none; transition: 0.2s;
+        }
+        .table-controls input:focus { border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25,118,210,0.15); }
+        .table-controls .filter-btn {
+            padding: 10px 16px; border: 1px solid #ddd; border-radius: 8px;
+            background: white; cursor: pointer; font-size: 14px; transition: 0.2s;
+        }
+        .table-controls .filter-btn:hover { background: #f5f5f5; }
+        .table-controls .filter-btn.active { background: #1976d2; color: white; border-color: #1976d2; }
+        .table-grid { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+        .table-card {
+            width: 155px; padding: 20px 16px; border-radius: 16px;
+            text-align: center; background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative; transition: all 0.3s ease; border: 1px solid #f0f0f0;
+        }
+        .table-card:hover {
+            transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .table-card .ten-ban { font-size: 18px; font-weight: 700; margin: 10px 0 6px; color: #333; }
+        .table-card .trang-thai {
+            font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px;
+            display: inline-block; letter-spacing: 0.3px; text-transform: uppercase;
+        }
+        .trang-thai.trong { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .trang-thai.dung { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+        .trang-thai.ban { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+        .table-card .actions { margin-top: 12px; display: flex; gap: 8px; justify-content: center; }
+        .table-card .actions button {
+            border: none; padding: 7px 12px; border-radius: 8px; cursor: pointer;
+            font-size: 12px; transition: 0.2s; font-weight: 500;
+        }
+        .btn-edit { background: #1976d2; color: white; }
+        .btn-edit:hover { background: #1565c0; }
+        .btn-delete { background: #d32f2f; color: white; }
+        .btn-delete:hover { background: #c62828; }
+        .btn-add {
+            width: 155px; height: 130px; border: 2px dashed #1976d2;
+            border-radius: 16px; display: flex; flex-direction: column; gap: 4px;
+            align-items: center; justify-content: center;
+            cursor: pointer; color: #1976d2; font-size: 42px; transition: all 0.3s;
+            background: #fafcff; font-weight: 300; line-height: 1;
+        }
+        .btn-add span { font-size: 13px; font-weight: 500; color: #1976d2; }
+        .btn-add:hover { background: #e3f2fd; border-color: #1565c0; transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(25,118,210,0.2); }
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55); z-index: 1000;
+            align-items: center; justify-content: center; backdrop-filter: blur(3px);
+        }
+        .modal-content {
+            background: white; padding: 32px; border-radius: 16px; min-width: 360px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalFadeIn 0.25s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-content h3 { margin: 0 0 8px; font-size: 20px; color: #333; }
+        .modal-content .modal-sub { color: #888; font-size: 13px; margin-bottom: 16px; }
+        .modal-content input {
+            width: 100%; padding: 12px 14px; margin: 8px 0 16px;
+            border: 1px solid #ddd; border-radius: 10px; font-size: 15px;
+            outline: none; transition: 0.2s;
+        }
+        .modal-content input:focus { border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25,118,210,0.12); }
+        .modal-content .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+        .modal-content button {
+            padding: 11px 24px; border: none; border-radius: 10px;
+            cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.2s;
+        }
+        .modal-content .btn-save { background: #1976d2; color: white; }
+        .modal-content .btn-save:hover { background: #1565c0; }
+        .modal-content .btn-cancel { background: #f0f0f0; color: #555; }
+        .modal-content .btn-cancel:hover { background: #e0e0e0; }
+        .no-tables {
+            width: 100%; text-align: center; padding: 60px 20px;
+            color: #999; font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="sidebar">
+        <div class="nav-header">
+            <img src="../imgs/logo/logo.png" alt="logo">
+        </div>
+        <div class="side-left">
+            <ul class="side-menu">
+                <li><a href="./DisplayFood.html"><i class="fa-solid fa-list"></i><span>Danh sách món ăn</span></a></li>
+                <li><a href="./TableManagement.html"><i class="fa-solid fa-table"></i><span>Quản lý bàn</span></a></li>
+                <li><a href="./Analytics.html"><i class="fa-solid fa-chart-simple"></i><span>Thống kê</span></a></li>
+                <li><a href="./VoucherManagement.html"><i class="fa-solid fa-tag"></i><span>Voucher</span></a></li>
+                <li><a href="./EmployeeManagement.html"><i class="fa-solid fa-users"></i><span>Nhân viên</span></a></li>
+                <li><a href="#" onclick="logout(); return false;"><i class="fa-solid fa-sign-out-alt"></i><span>Đăng xuất</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <div class="menu">
+            <h2 style="padding:16px 0 0 16px;">Quản lý bàn ăn</h2>
+            <div class="table-controls">
+                <input type="text" id="searchTable" placeholder="🔍 Tìm tên bàn..." oninput="filterTables()">
+                <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">Tất cả</button>
+                <button class="filter-btn" data-filter="Còn trống" onclick="setFilter(this,'Còn trống')">Còn trống</button>
+                <button class="filter-btn" data-filter="Đang dùng" onclick="setFilter(this,'Đang dùng')">Đang dùng</button>
+            </div>
+            <div id="loading" style="text-align:center;padding:40px;">Đang tải...</div>
+            <div id="tableContainer" class="table-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Thêm bàn</h3>
+        <div class="modal-sub" id="modalSub">Nhập tên bàn để thêm vào danh sách</div>
+        <input type="text" id="inputTenBan" placeholder="Nhập tên bàn..." autocomplete="off">
+        <input type="hidden" id="editId">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal()">Hủy</button>
+            <button class="btn-save" onclick="saveTable()">Lưu</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = API_BASE;
+let allTables = [];
+let currentFilter = 'all';
+let currentSearch = '';
+
+async function loadTables() {
+    document.getElementById('loading').style.display = 'block';
+    try {
+        const res = await fetch(`${API}/tables`);
+        allTables = await res.json();
+        renderTables(allTables);
+    } catch (e) {
+        document.getElementById('loading').textContent = 'Lỗi tải dữ liệu';
+    }
+    document.getElementById('loading').style.display = 'none';
+}
+
+function renderTables(tables) {
+    const container = document.getElementById('tableContainer');
+    container.innerHTML = '';
+
+    const filtered = tables.filter(t => {
+        if (currentFilter !== 'all' && t.TrangThai !== currentFilter) return false;
+        if (currentSearch && !t.TenBan.toLowerCase().includes(currentSearch.toLowerCase())) return false;
+        return true;
+    });
+
+    if (filtered.length === 0 && (currentFilter !== 'all' || currentSearch)) {
+        const msg = document.createElement('div');
+        msg.className = 'no-tables';
+        msg.textContent = 'Không tìm thấy bàn nào phù hợp';
+        container.appendChild(msg);
+    } else {
+        filtered.forEach(t => {
+            const statusClass = t.TrangThai === 'Còn trống' ? 'trong' : 'dung';
+            const card = document.createElement('div');
+            card.className = 'table-card';
+            card.innerHTML = `
+                <div class="trang-thai ${statusClass}">${t.TrangThai}</div>
+                <div class="ten-ban">${t.TenBan}</div>
+                <div class="actions">
+                    <button class="btn-edit" onclick="editTable(${t.Id})"><i class="fa-solid fa-arrows-left-right"></i> Đổi chỗ</button>
+                    <button class="btn-delete" onclick="deleteTable(${t.Id},'${t.TenBan.replace(/'/g, "\\'")}')"><i class="fa-solid fa-trash"></i> Xóa</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    const addBtn = document.createElement('div');
+    addBtn.className = 'btn-add';
+    addBtn.innerHTML = '+<span>Thêm bàn</span>';
+    addBtn.onclick = () => showModal('add');
+    container.appendChild(addBtn);
+}
+
+function filterTables() {
+    currentSearch = document.getElementById('searchTable').value;
+    renderTables(allTables);
+}
+
+function setFilter(btn, filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTables(allTables);
+}
+
+function showModal(mode, id, tenBan) {
+    document.getElementById('modal').style.display = 'flex';
+    if (mode === 'add') {
+        document.getElementById('modalTitle').textContent = 'Thêm bàn mới';
+        document.getElementById('modalSub').textContent = 'Nhập tên bàn để thêm vào danh sách';
+        document.getElementById('inputTenBan').value = '';
+        document.getElementById('editId').value = '';
+    } else {
+        document.getElementById('modalTitle').textContent = 'Đổi chỗ bàn';
+        document.getElementById('modalSub').textContent = 'Nhập tên bàn muốn đổi chỗ với bàn này';
+        document.getElementById('inputTenBan').value = '';
+        document.getElementById('editId').value = id;
+    }
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+function editTable(id) {
+    showModal('edit', id);
+}
+
+async function saveTable() {
+    const tenBan = document.getElementById('inputTenBan').value.trim();
+    const editId = document.getElementById('editId').value;
+
+    if (!tenBan) { alert('Vui lòng nhập tên bàn'); return; }
+
+    try {
+        if (editId) {
+            const res = await fetch(`${API}/tables/${editId}/rename`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ tenBan })
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                alert(err.message || 'Không thể đổi bàn');
+                return;
+            }
+        } else {
+            await fetch(`${API}/tables`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ tenBan })
+            });
+        }
+        closeModal();
+        loadTables();
+    } catch (e) {
+        alert('Lỗi: ' + e.message);
+    }
+}
+
+async function deleteTable(id, tenBan) {
+    if (!confirm(`Xóa ${tenBan}?`)) return;
+    try {
+        await fetch(`${API}/tables/${id}`, { method: 'DELETE' });
+        loadTables();
+    } catch (e) {
+        alert('Lỗi: ' + e.message);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadTables);
+</script>
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script>
+</body>
+</html>

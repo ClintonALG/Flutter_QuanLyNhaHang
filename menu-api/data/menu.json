@@ -1,0 +1,416 @@
+[
+    {
+        "id": 1745333568161,
+        "name": "Pizza Tôm Cheese & Dough 45cm 1.2kg",
+        "description": "Pizza tôm tươi kết hợp phô mai mozzarella béo ngậy. Đế bánh mỏng giòn, kích thước 45cm, trọng lượng 1.2kg, phù hợp cho gia đình. Thành phần: tôm, phô mai, sốt cà chua, lá oregano.",
+        "price": 240000,
+        "quantity": 15,
+        "image": "/imgs/products/pizza-tom-45cm.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568162,
+        "name": "Pizza Nấm Cheese & Dough Miếng 200g",
+        "description": "Pizza miếng 200g với nấm tươi và phô mai tan chảy. Đế bánh giòn, vị nấm đậm đà. Thành phần: nấm, phô mai mozzarella, sốt cà chua.",
+        "price": 45000,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-nam-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568163,
+        "name": "Pizza Phô Mai Cheese & Dough 45cm 1kg",
+        "description": "Pizza phô mai béo ngậy với ba loại phô mai Mozzarella, Parmesan, Cheddar. Đế bánh mỏng giòn, kích thước 45cm, 1kg. Thành phần: bột mì, phô mai, sốt cà chua, lá oregano.",
+        "price": 199000,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-phomai-45cm.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568164,
+        "name": "Pizza Bò Bulgogi Cheese & Dough 45cm 1.2kg",
+        "description": "Pizza bò Bulgogi thơm ngon với thịt bò ướp sốt Hàn Quốc, phô mai tan chảy. Kích thước 45cm, 1.2kg. Thành phần: thịt bò, phô mai, sốt Bulgogi, hành tây.",
+        "price": 240000,
+        "quantity": 8,
+        "image": "/imgs/products/pizza-bo-bulgogi-45cm.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568165,
+        "name": "Pizza Tôm Cheese & Dough 1 Miếng 200g",
+        "description": "Pizza miếng 200g với tôm tươi và phô mai mozzarella. Đế bánh giòn, vị tôm đậm đà. Thành phần: tôm, phô mai, sốt cà chua.",
+        "price": 45000,
+        "quantity": 14,
+        "image": "/imgs/products/pizza-tom-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568166,
+        "name": "Pizza Truyền Thống Cheese & Dough 45cm 1.2kg",
+        "description": "Pizza truyền thống với phô mai mozzarella, sốt cà chua, và các nguyên liệu đậm đà. Kích thước 45cm, 1.2kg. Thành phần: phô mai, pepperoni, ô liu đen, sốt cà chua.",
+        "price": 220000,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-truyen-thong-45cm.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568167,
+        "name": "Pizza Rau Củ Cheese & Dough Miếng 200g",
+        "description": "Pizza miếng 200g với rau củ tươi (ớt chuông, hành tây, nấm) và phô mai. Đế bánh giòn, vị rau củ thanh nhẹ. Thành phần: rau củ, phô mai, sốt cà chua.",
+        "price": 45000,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-rau-cu-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568168,
+        "name": "Pizza Xoài Cheese & Dough 25cm 380G",
+        "description": "Pizza ngọt độc đáo với xoài tươi và phô mai mozzarella. Đế bánh mềm, kích thước 25cm, 380g. Thành phần: xoài, phô mai, sốt kem.",
+        "price": 95000,
+        "quantity": 7,
+        "image": "/imgs/products/pizza-xoai.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568169,
+        "name": "Pizza Tôm Cheese & Dough 1/2 Cái 600g",
+        "description": "Nửa chiếc pizza tôm 600g với phô mai tan chảy. Đế bánh giòn, phù hợp cho 2-3 người. Thành phần: tôm, phô mai, sốt cà chua, lá oregano.",
+        "price": 130000,
+        "quantity": 13,
+        "image": "/imgs/products/pizza-tom-nua.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568170,
+        "name": "Pizza Phô Mai Cheese & Dough 1 Miếng 166g",
+        "description": "Pizza miếng 166g với phô mai mozzarella béo ngậy. Đế bánh giòn, vị phô mai đậm đà. Thành phần: phô mai, sốt cà chua.",
+        "price": 35900,
+        "quantity": 16,
+        "image": "/imgs/products/pizza-phomai-mieng-166g.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568171,
+        "name": "Pizza Truyền Thống Cheese & Dough 1 Miếng 200g",
+        "description": "Pizza miếng 200g truyền thống với phô mai, pepperoni, và sốt cà chua. Đế bánh giòn, nhiều màu sắc. Thành phần: phô mai, pepperoni, ô liu đen.",
+        "price": 40000,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-truyen-thong-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568172,
+        "name": "Pizza Bò Bulgogi Cheese & Dough 1 Miếng 200g",
+        "description": "Pizza miếng 200g với thịt bò Bulgogi ướp sốt Hàn Quốc, phô mai tan chảy. Đế bánh giòn. Thành phần: bò, phô mai, sốt Bulgogi.",
+        "price": 45000,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-bo-bulgogi-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568173,
+        "name": "Pizza Phô Mai Bắp Cheese & Dough Miếng 200g",
+        "description": "Pizza miếng 200g với bắp ngọt và phô mai mozzarella. Đế bánh giòn, vị ngọt tự nhiên. Thành phần: bắp, phô mai, sốt cà chua.",
+        "price": 45000,
+        "quantity": 8,
+        "image": "/imgs/products/pizza-phomai-bap-mieng.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568174,
+        "name": "Pizza Gà Nướng Cheese & Dough 25cm 420G",
+        "description": "Pizza gà nướng với thịt gà thơm, phô mai tan chảy. Kích thước 25cm, 420g. Thành phần: gà, phô mai, sốt BBQ, hành tây.",
+        "price": 95000,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-ga-nuong.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568175,
+        "name": "Pizza Phô Mai Cheese & Dough 1/2 Cái 500g",
+        "description": "Nửa chiếc pizza phô mai 500g với phô mai mozzarella béo ngậy. Đế bánh giòn, phù hợp 2-3 người. Thành phần: phô mai, sốt cà chua.",
+        "price": 109000,
+        "quantity": 14,
+        "image": "/imgs/products/pizza-phomai-nua-500g.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568176,
+        "name": "Pizza Truyền Thống Cheese & Dough 1/2 Cái 600g",
+        "description": "Nửa chiếc pizza truyền thống 600g với phô mai, pepperoni, và sốt cà chua. Đế bánh giòn. Thành phần: phô mai, pepperoni, ô liu đen.",
+        "price": 120000,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-truyen-thong-nua.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568177,
+        "name": "Pizza Bò Bulgogi Cheese & Dough 1/2 Cái 600g",
+        "description": "Nửa chiếc pizza bò Bulgogi 600g với thịt bò ướp sốt Hàn Quốc, phô mai. Đế bánh giòn. Thành phần: bò, phô mai, sốt Bulgogi.",
+        "price": 130000,
+        "quantity": 7,
+        "image": "/imgs/products/pizza-bo-bulgogi-nua.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568178,
+        "name": "Pizza Phô Mai Mật Ong Cheese & Dough 25cm 300G",
+        "description": "Pizza ngọt với phô mai mozzarella và mật ong thơm. Kích thước 25cm, 300g. Thành phần: phô mai, mật ong, sốt kem.",
+        "price": 95000,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-phomai-mat-ong.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568179,
+        "name": "Pizza Phô Mai Việt Quất Cheese & Dough 25cm 350G",
+        "description": "Pizza ngọt với phô mai và mứt việt quất. Kích thước 25cm, 350g. Thành phần: phô mai, việt quất, sốt kem.",
+        "price": 95000,
+        "quantity": 8,
+        "image": "/imgs/products/pizza-phomai-viet-quat.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568180,
+        "name": "Pizza Khoai Tây và Thịt Xông Khói Cheese & Dough Miếng 200g",
+        "description": "Pizza miếng 200g với khoai tây mềm và thịt xông khói thơm. Đế bánh giòn. Thành phần: khoai tây, thịt xông khói, phô mai.",
+        "price": 45000,
+        "quantity": 13,
+        "image": "/imgs/products/pizza-khoai-tay-thit-xong-khoi.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568181,
+        "name": "Set Pizza Cuộn Cheese & Dough 200G",
+        "description": "Pizza cuộn 200g với nhân phô mai mozzarella và dăm bông. Vỏ bánh mềm dai, nướng vàng. Thành phần: phô mai, dăm bông, hành tây, ô liu.",
+        "price": 45000,
+        "quantity": 15,
+        "image": "/imgs/products/pizza-cuon-cheese.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568182,
+        "name": "Pizza Phô Mai Manna 120g",
+        "description": "Pizza đông lạnh Manna 120g với phô mai mozzarella béo ngậy. Đế bánh giòn. Thành phần: phô mai, sốt cà chua.",
+        "price": 38900,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-phomai-manna.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568183,
+        "name": "Pizza Phô Mai FRISSTA 340G",
+        "description": "Pizza đông lạnh FRISSTA 340g với phô mai mozzarella đậm đà. Đế bánh giòn. Thành phần: phô mai, sốt cà chua.",
+        "price": 97200,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-phomai-frissta.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568184,
+        "name": "Pizza Xúc Xích Frissta 370G",
+        "description": "Pizza đông lạnh Frissta 370g với xúc xích Ý và phô mai. Đế bánh giòn. Thành phần: xúc xích, phô mai, sốt cà chua.",
+        "price": 97900,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-xuc-xich-frissta.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568185,
+        "name": "Pizza Phô Mai Ottogi 91G",
+        "description": "Pizza đông lạnh Ottogi 91g với phô mai mozzarella. Đế bánh giòn, tiện lợi. Thành phần: phô mai, sốt cà chua.",
+        "price": 45100,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-phomai-ottogi.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568186,
+        "name": "Pizza Hải Sản Choice L 180g",
+        "description": "Pizza đông lạnh Choice L 180g với hải sản (tôm, mực) và phô mai. Đế bánh giòn. Thành phần: tôm, mực, phô mai, sốt cà chua.",
+        "price": 46200,
+        "quantity": 14,
+        "image": "/imgs/products/pizza-hai-san-choice.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568187,
+        "name": "Pizza Thập Cẩm Thịt Manna 120g",
+        "description": "Pizza đông lạnh Manna 120g với thịt, xúc xích, và phô mai. Đế bánh giòn. Thành phần: thịt, xúc xích, phô mai, sốt cà chua.",
+        "price": 38500,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-thap-cam-manna.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568188,
+        "name": "Pizza Thập Cẩm Choice L 180g",
+        "description": "Pizza đông lạnh Choice L 180g với nhiều loại thịt và rau củ. Đế bánh giòn. Thành phần: thịt, xúc xích, rau củ, phô mai.",
+        "price": 46200,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-thap-cam-choice.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568189,
+        "name": "Pizza Mini Xúc Xích Dasumy 115G",
+        "description": "Pizza mini Dasumy 115g với xúc xích và phô mai. Đế bánh giòn, tiện lợi. Thành phần: xúc xích, phô mai, sốt cà chua.",
+        "price": 37900,
+        "quantity": 15,
+        "image": "/imgs/products/pizza-mini-xuc-xich-dasumy.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568190,
+        "name": "Pizza Nấm Rong Biển Dasumy 115G",
+        "description": "Pizza mini Dasumy 115g với nấm và rong biển, phô mai. Đế bánh giòn. Thành phần: nấm, rong biển, phô mai, sốt cà chua.",
+        "price": 37900,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-nam-rong-bien-dasumy.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568191,
+        "name": "Pizza Bò Bằm LC Foods 140G",
+        "description": "Pizza đông lạnh LC Foods 140g với bò bằm và phô mai. Đế bánh giòn. Thành phần: bò bằm, phô mai, sốt cà chua.",
+        "price": 34900,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-bo-bam-lcfoods.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568192,
+        "name": "Pizza Hải Sản LC Foods Hộp 140G",
+        "description": "Pizza đông lạnh LC Foods 140g với hải sản (tôm, mực) và phô mai. Đế bánh giòn. Thành phần: tôm, mực, phô mai, sốt cà chua.",
+        "price": 34900,
+        "quantity": 13,
+        "image": "/imgs/products/pizza-hai-san-lcfoods.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568193,
+        "name": "Pizza Xúc Xích LC Foods Hộp 140G",
+        "description": "Pizza đông lạnh LC Foods 140g với xúc xích và phô mai. Đế bánh giòn. Thành phần: xúc xích, phô mai, sốt cà chua.",
+        "price": 34900,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-xuc-xich-lcfoods.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568194,
+        "name": "Pizza 4P's Vị Gà Teriyaki Hộp 315G",
+        "description": "Pizza đông lạnh 4P's 315g với gà Teriyaki và phô mai. Đế bánh giòn, vị Nhật Bản. Thành phần: gà, sốt Teriyaki, phô mai, hành tây.",
+        "price": 139000,
+        "quantity": 8,
+        "image": "/imgs/products/pizza-ga-teriyaki-4ps.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568195,
+        "name": "Pizza Mini Thịt Xông Khói Dasumy 115G",
+        "description": "Pizza mini Dasumy 115g với thịt xông khói và phô mai. Đế bánh giòn. Thành phần: thịt xông khói, phô mai, sốt cà chua.",
+        "price": 37900,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-mini-thit-xong-khoi-dasumy.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568196,
+        "name": "Pizza Bò Phô Mai Choice L 180g",
+        "description": "Pizza đông lạnh Choice L 180g với thịt bò và phô mai mozzarella. Đế bánh giòn. Thành phần: bò, phô mai, sốt cà chua.",
+        "price": 46200,
+        "quantity": 14,
+        "image": "/imgs/products/pizza-bo-phomai-choice.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568197,
+        "name": "Pizza Hải Sản Vị Ý Manna 120g",
+        "description": "Pizza đông lạnh Manna 120g với hải sản và sốt Ý. Đế bánh giòn. Thành phần: tôm, mực, phô mai, sốt cà chua.",
+        "price": 41500,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-hai-san-manna.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568198,
+        "name": "Pizza Ristorante Nấm Funghi Dr. Oetker 365g",
+        "description": "Pizza đông lạnh Dr. Oetker 365g với nấm Funghi và phô mai. Đế bánh giòn. Thành phần: nấm, phô mai, sốt cà chua.",
+        "price": 175900,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-nam-funghi-oetker.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568199,
+        "name": "Pizza Thịt Bò Sốt BBQ Manna 120g",
+        "description": "Pizza đông lạnh Manna 120g với thịt bò và sốt BBQ. Đế bánh giòn. Thành phần: bò, sốt BBQ, phô mai, hành tây.",
+        "price": 38500,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-bo-sot-bbq-manna.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568200,
+        "name": "Pizza Ristorante Cá Ngừ Dr. Oetker 355g",
+        "description": "Pizza đông lạnh Dr. Oetker 355g với cá ngừ và phô mai. Đế bánh giòn. Thành phần: cá ngừ, phô mai, sốt cà chua, hành tây.",
+        "price": 175900,
+        "quantity": 8,
+        "image": "/imgs/products/pizza-ca-ngu-oetker.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568201,
+        "name": "Pizza Manna Jambon & Xúc Xích Vị Thái 120g",
+        "description": "Pizza đông lạnh Manna 120g với jambon, xúc xích, và sốt Thái. Đế bánh giòn. Thành phần: jambon, xúc xích, sốt Thái, phô mai.",
+        "price": 38500,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-jambon-xuc-xich-manna.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568202,
+        "name": "Pizza SG Food Bảy Loại Phô Mai Hộp 118G",
+        "description": "Pizza đông lạnh SG Food 118g với bảy loại phô mai béo ngậy. Đế bánh giòn. Thành phần: phô mai, sốt cà chua.",
+        "price": 45000,
+        "quantity": 10,
+        "image": "/imgs/products/pizza-bay-phomai-sgfood.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568203,
+        "name": "Pizza SG Food Cà Chua Phô Mai Hộp 135G",
+        "description": "Pizza đông lạnh SG Food 135g với sốt cà chua và phô mai mozzarella. Đế bánh giòn. Thành phần: phô mai, sốt cà chua.",
+        "price": 45000,
+        "quantity": 13,
+        "image": "/imgs/products/pizza-ca-chua-phomai-sgfood.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568204,
+        "name": "Pizza Frissta Xúc Xích Ý, Bò Bằm, Dăm Bông 350G",
+        "description": "Pizza đông lạnh Frisstaa 350g với xúc xích Ý, bò bằm, dăm bông, và phô mai. Đế bánh giòn. Thành phần: xúc xích, bò, dăm bông, phô mai.",
+        "price": 113900,
+        "quantity": 11,
+        "image": "/imgs/products/pizza-xuc-xich-bo-dam-bong-frissta.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568205,
+        "name": "Pizza Ristorante Bốn Loại Phô Mai Formaggi Dr. Oetker 340g",
+        "description": "Pizza đông lạnh Dr. Oetker 340g với bốn loại phô mai cao cấp. Đế bánh giòn. Thành phần: phô mai, sốt cà chua.",
+        "price": 175900,
+        "quantity": 9,
+        "image": "/imgs/products/pizza-bon-phomai-oetker.webp",
+        "category": "food"
+    },
+    {
+        "id": 1745333568206,
+        "name": "Pizza Đông Lạnh 4 Loại Cà Chua Margherita 4 P'S 267G",
+        "description": "Pizza đông lạnh 4 P'S 267g với sốt cà chua Margherita và phô mai. Đế bánh giòn. Thành phần: phô mai, sốt cà chua, lá basil.",
+        "price": 129000,
+        "quantity": 12,
+        "image": "/imgs/products/pizza-margherita-4ps.webp",
+        "category": "food"
+    }
+]

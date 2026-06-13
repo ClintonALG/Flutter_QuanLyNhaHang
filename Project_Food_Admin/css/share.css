@@ -1,0 +1,10 @@
+/* active menu item */
+.side-menu li.active a {
+    background-color: rgb(246, 193, 124);
+    font-weight: bold;
+    /* color: white; */
+}
+
+.side-menu a i::before {
+    margin-right: 10px;
+}

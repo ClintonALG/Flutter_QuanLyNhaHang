@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "date": "2025-01-10",
+        "items": [
+            {
+                "name": "Nước ngọt 7Up",
+                "productId": 1745333568161,
+                "price": 2000,
+                "quantity": 5
+            },
+            {
+                "name": "Nước ngọt Coca Cola",
+                "productId": 1745333696784,
+                "price": 3000,
+                "quantity": 4
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "date": "2025-02-11",
+        "items": [
+            {
+                "name": "Pizza Phô Mai Cheese & Dough 45cm 1kg ",
+                "productId": 1745333947327,
+                "price": 1000,
+                "quantity": 1
+            },
+            {
+                "name": "Pizza Truyền Thống Cheese & Dough 1 Miếng 200g",
+                "productId": 1745334051183,
+                "price": 6000,
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "date": "2025-05-06",
+        "items": [
+            {
+                "name": "Nước ngọt Pepsi",
+                "productId": 1745333806630,
+                "price": 11000,
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "date": "2025-04-04",
+        "items": [
+            {
+                "name": "Pizza Phô Mai Cheese & Dough 45cm 1kg",
+                "productId": 1745333947327,
+                "price": 220000,
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "date": "2025-05-01",
+        "items": [
+            {
+                "name": "Set Pizza Cuộn Cheese & Dough 200G",
+                "productId": 1745334123409,
+                "price": 45000,
+                "quantity": 1
+            }
+        ]
+    }
+]

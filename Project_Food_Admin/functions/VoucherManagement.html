@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Voucher</title>
+    <link rel="stylesheet" href="../css/displayFood.css">
+    <link rel="stylesheet" href="../css/share.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .voucher-container { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .voucher-container h1 { font-size: 22px; margin-bottom: 20px; color: #333; }
+        .voucher-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .btn-add-voucher { background: #1976d2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-add-voucher:hover { background: #1565c0; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        th { background: #f8f9fa; padding: 12px 16px; text-align: left; font-size: 13px; color: #666; border-bottom: 1px solid #eee; }
+        td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+        .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-ok { background: #e8f5e9; color: #2e7d32; }
+        .badge-thieu { background: #ffebee; color: #c62828; }
+        .btn-toggle { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; color: white; }
+        .btn-edit { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #1976d2; color: white; }
+        .btn-delete { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; background: #d32f2f; color: white; }
+        .form-voucher { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; display: none; }
+        .form-voucher.show { display: block; }
+        .form-voucher h3 { margin-bottom: 16px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 13px; color: #555; }
+        .form-group input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-state i { font-size: 48px; margin-bottom: 12px; color: #ccc; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="nav-header">
+                <img src="../imgs/logo/logo.png" alt="" width="78px">
+            </div>
+            <div class="side-left">
+                <ul class="side-menu">
+                    <li><a href="./DisplayFood.html"><i class="fa-solid fa-list"></i><span>Danh sách món ăn</span></a></li>
+                    <li><a href="./TableManagement.html"><i class="fa-solid fa-table"></i><span>Quản lý bàn</span></a></li>
+                    <li><a href="./Analytics.html"><i class="fa-solid fa-chart-simple"></i><span>Thống kê</span></a></li>
+                    <li><a href="./VoucherManagement.html"><i class="fa-solid fa-tag"></i><span>Voucher</span></a></li>
+                    <li><a href="./EmployeeManagement.html"><i class="fa-solid fa-users"></i><span>Nhân viên</span></a></li>
+                    <li><a href="#" onclick="logout(); return false;"><i class="fa-solid fa-sign-out-alt"></i><span>Đăng xuất</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="voucher-container">
+                <div class="voucher-header">
+                    <h1><i class="fa-solid fa-tag"></i> Quản lý Voucher</h1>
+                    <button class="btn-add-voucher" onclick="showAddForm()">+ Thêm voucher</button>
+                </div>
+
+                <div class="form-voucher" id="formVoucher">
+                    <h3 id="formTitle">Thêm voucher mới</h3>
+                    <input type="hidden" id="voucherId" value="">
+                    <div class="form-group">
+                        <label>Mã giảm giá</label>
+                        <input type="text" id="voucherMa" placeholder="VD: SALE50">
+                    </div>
+                    <div class="form-group">
+                        <label>Phần trăm giảm (%)</label>
+                        <input type="number" id="voucherPhanTram" placeholder="10">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-add-voucher" onclick="saveVoucher()">Lưu</button>
+                        <button class="btn-add-voucher" style="background:#888;" onclick="hideForm()">Hủy</button>
+                    </div>
+                </div>
+
+                <div id="voucherList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script>
+        const API = API_BASE;
+
+        let editingId = null;
+
+        function showAddForm() {
+            editingId = null;
+            document.getElementById('voucherId').value = '';
+            document.getElementById('voucherMa').value = '';
+            document.getElementById('voucherPhanTram').value = '';
+            document.getElementById('formTitle').textContent = 'Thêm voucher mới';
+            document.getElementById('formVoucher').classList.add('show');
+        }
+
+        function showEditForm(id, ma, phanTram) {
+            editingId = id;
+            document.getElementById('voucherId').value = id;
+            document.getElementById('voucherMa').value = ma;
+            document.getElementById('voucherPhanTram').value = phanTram;
+            document.getElementById('formTitle').textContent = 'Sửa voucher';
+            document.getElementById('formVoucher').classList.add('show');
+        }
+
+        function hideForm() {
+            document.getElementById('formVoucher').classList.remove('show');
+        }
+
+        async function loadVouchers() {
+            const container = document.getElementById('voucherList');
+            try {
+                const res = await fetch(API + '/vouchers');
+                const data = await res.json();
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-tag"></i><p>Chưa có voucher nào</p></div>';
+                    return;
+                }
+                let html = '<table><thead><tr><th>Mã</th><th>Giảm</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>';
+                data.forEach(v => {
+                    const active = v.TrangThai === true || v.TrangThai === 1;
+                    html += `<tr>
+                        <td><strong>${v.Ma}</strong></td>
+                        <td>${parseFloat(v.PhanTramGiam).toFixed(1)}%</td>
+                        <td><span class="badge ${active ? 'badge-ok' : 'badge-thieu'}">${active ? 'Đang dùng' : 'Tắt'}</span></td>
+                        <td style="white-space:nowrap">
+                            <button class="btn-toggle" style="background:${active ? '#ff9800' : '#4caf50'};" onclick="toggleVoucher(${v.Id})">${active ? 'Tắt' : 'Bật'}</button>
+                            <button class="btn-edit" onclick="showEditForm(${v.Id},'${v.Ma}',${v.PhanTramGiam})">Sửa</button>
+                            <button class="btn-delete" onclick="deleteVoucher(${v.Id})">Xóa</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><p>Lỗi tải dữ liệu</p></div>';
+            }
+        }
+
+        async function saveVoucher() {
+            const ma = document.getElementById('voucherMa').value.trim();
+            const phanTram = document.getElementById('voucherPhanTram').value;
+            if (!ma || !phanTram) { alert('Vui lòng nhập đủ thông tin'); return; }
+            try {
+                let res;
+                if (editingId) {
+                    res = await fetch(API + '/vouchers/' + editingId, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ma, phanTramGiam: parseFloat(phanTram) })
+                    });
+                } else {
+                    res = await fetch(API + '/vouchers', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ma, phanTramGiam: parseFloat(phanTram) })
+                    });
+                }
+                if (res.ok) {
+                    alert(editingId ? 'Sửa voucher thành công' : 'Thêm voucher thành công');
+                    hideForm();
+                    loadVouchers();
+                } else {
+                    const err = await res.json();
+                    alert('Lỗi: ' + (err.message || ''));
+                }
+            } catch (e) { alert('Lỗi kết nối'); }
+        }
+
+        async function toggleVoucher(id) {
+            try {
+                const res = await fetch(API + '/vouchers/' + id + '/toggle', { method: 'PUT' });
+                if (res.ok) loadVouchers();
+            } catch (e) { alert('Lỗi kết nối'); }
+        }
+
+        async function deleteVoucher(id) {
+            if (!confirm('Xóa voucher này?')) return;
+            try {
+                const res = await fetch(API + '/vouchers/' + id, { method: 'DELETE' });
+                if (res.ok) loadVouchers();
+            } catch (e) { alert('Lỗi kết nối'); }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadVouchers);
+    </script>
+</body>
+</html>

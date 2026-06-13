@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "name": "Đường (Sugar)",
+        "stock": 10000,
+        "unit": "gram"
+    },
+    {
+        "id": 2,
+        "name": "Nước (Water)",
+        "stock": 50000,
+        "unit": "ml"
+    },
+    {
+        "id": 3,
+        "name": "Hương chanh (Lime Flavoring)",
+        "stock": 1000,
+        "unit": "ml"
+    },
+    {
+        "id": 4,
+        "name": "Hương cola (Cola Flavoring)",
+        "stock": 1000,
+        "unit": "ml"
+    },
+    {
+        "id": 5,
+        "name": "Hương cola (Pepsi Flavoring)",
+        "stock": 1000,
+        "unit": "ml"
+    },
+    {
+        "id": 6,
+        "name": "Bột mì (Flour)",
+        "stock": 20000,
+        "unit": "gram"
+    },
+    {
+        "id": 7,
+        "name": "Phô mai (Cheese)",
+        "stock": 10000,
+        "unit": "gram"
+    },
+    {
+        "id": 8,
+        "name": "Nước sốt cà chua (Tomato Sauce)",
+        "stock": 5000,
+        "unit": "gram"
+    },
+    {
+        "id": 9,
+        "name": "Thịt pepperoni",
+        "stock": 2000,
+        "unit": "gram"
+    },
+    {
+        "id": 10,
+        "name": "Dăm bông",
+        "stock": 2000,
+        "unit": "gram"
+    },
+    {
+        "id": 11,
+        "name": "Hương trái cây (Fruit Flavoring)",
+        "stock": 1000,
+        "unit": "ml"
+    }
+]

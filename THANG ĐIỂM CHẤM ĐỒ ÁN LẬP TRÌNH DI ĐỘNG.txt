@@ -1,0 +1,99 @@
+THANG ĐIỂM CHẤM ĐỒ ÁN LẬP TRÌNH DI ĐỘNG
+
+PHẦN A: SẢN PHẨM PHẦN MỀM & KỸ THUẬT XỬ LÝ (Tỷ trọng 50% - Tối đa
+5.0 điểm)
+1. Mức độ Cơ bản: Giao diện & Nghiệp vụ Tĩnh (Tối đa 1.5 điểm)
+● Giao diện & Tiện ích (0.5 điểm): Hoàn thiện đầy đủ các màn hình, không lỗi tràn
+viền (overflow). Hiển thị danh sách mượt mà.
+● Điều hướng & Ràng buộc cứng (1.0 điểm): Chuyển màn hình đúng logic nghiệp
+vụ. Form nhập liệu phải có validation đầy đủ và chính xác (bắt lỗi trống, định dạng,
+độ dài) trước khi tạo kết nối đến SQL Server.
+2. Thao tác CRUD & Xử lý Ngoại lệ mạng (Tối đa 1.5 điểm)
+● Xử lý CRUD động (1.0 điểm): Thực hiện kết nối thành công và thao tác dữ liệu
+qua lại với SQL Server thông qua mạng LAN/WAN. Hiển thị dữ liệu lên UI bằng
+FutureBuilder/StreamBuilder. Các nút Thêm/Sửa/Xóa phải cập nhật trạng thái
+(State) của UI ngay lập tức.
+● Xử lý Timeout và Mất kết nối (0.5 điểm) - Điểm khó 1: Ứng dụng không được
+phép crash khi SQL Server bị ngắt kết nối đột ngột hoặc sai IP. Phải cấu hình được
+thời gian chờ (Timeout), có khối try-catch để bắt lỗi mạng và hiển thị thông báo
+(Dialog/Snackbar) tường minh hướng dẫn sinh viên kiểm tra mạng.
+3. Tối ưu, Đồng bộ & Bảo mật (Tối đa 2.0 điểm)
+● Cơ chế Tải dữ liệu bất đồng bộ & Hiệu ứng Chờ (0.5 điểm): Khi truy vấn bảng
+lớn từ SQL Server qua mạng, ứng dụng bắt buộc phải xử lý bất đồng bộ
+(async/await). Trong lúc đợi kết nối và load dữ liệu phải có hiệu ứng chờ (Shimmer
+effect hoặc Progress Indicator). Ứng dụng không được bị "đơ/băng cứng" UI khi
+đang truy vấn.
+● Bảo mật Chuỗi kết nối & Phân quyền SQL (0.5 điểm): Tuyệt đối cấm sử dụng tài
+khoản sa cứng trong code Dart. Sinh viên phải chứng minh được việc tạo một User
+riêng trên SQL Server, chỉ cấp quyền truy cập các bảng cần thiết, hoặc mã hóa
+chuỗi Connection String để tránh dịch ngược file APK/IPA lấy mất mật khẩu
+database.
+● Xử lý Giao dịch phức tạp (Transaction) hoặc Stored Procedure (1.0 điểm): *
+Ứng dụng phải hiện thực được các nghiệp vụ có tính ràng buộc toàn vẹn (Ví dụ:
+Khi "Đặt hàng", ứng dụng phải vừa thêm vào bảng HoaDon, vừa thêm nhiều dòng
+vào ChiTietHoaDon, đồng thời trừ số lượng tồn kho ở bảng SanPham).
+○ Toàn bộ luồng này phải được cuộn trong SQL Transaction (thành công cùng thành
+công, lỗi là phải Rollback) hoặc viết trọn gói trong một Stored Procedure trên
+
+SQL Server để App gọi thực thi, thay vì viết các câu lệnh SQL rời rạc dưới App.
+○
+PHẦN B: HÌNH THỨC & TƯ DUY THIẾT KẾ BÁO CÁO (Tỷ trọng 30% - Tối đa
+3.0 điểm)
+1. Hình thức văn bản (0.5 điểm)
+● Trình bày đúng biểu mẫu, mục lục tự động, không sai chính tả, hình ảnh chụp màn
+hình app rõ ràng, sạch sẽ.
+2. Phân tích Nghiệp vụ Hệ thống (1.0 điểm)
+● Xác định rõ bài toán thực tế. Vẽ đúng sơ đồ Use Case và sơ đồ Hoạt động (Activity
+Diagram) thể hiện rõ luồng đi của dữ liệu từ thiết bị di động gửi đến SQL Server
+và ngược lại cho ít nhất 02 quy trình cốt lõi.
+3. Thiết kế Cơ sở dữ liệu (1.5 điểm)
+● Sơ đồ ERD & Đặc tả dữ liệu (1.0 điểm): Thiết kế sơ đồ quan hệ thực thể (ERD)
+chuẩn hóa (tối thiểu đạt dạng chuẩn 3NF, không trùng lặp dữ liệu). Có đặc tả chi tiết
+kiểu dữ liệu, khóa chính, khóa ngoại.
+● Đặc tả Logic phía Server (0.5 điểm): Viết tài liệu liệt kê chi tiết mã nguồn của các
+Stored Procedure, Triggers, Views hoặc các ràng buộc (Check Constraints) được
+cài đặt trực tiếp trên SQL Server để phục vụ cho các quy trình phức tạp của app.
+PHẦN C: QUÁ TRÌNH LÀM VIỆC & VẤN ĐÁP CODE "SỐNG" (Tỷ trọng 20% -
+Tối đa 2.0 điểm)
+1. Đóng góp & Minh chứng làm việc nhóm (0.5 điểm)
+● Có bảng phân công công việc cụ thể. Phải có minh chứng kiểm soát mã nguồn bằng
+Git/GitHub (giảng viên sẽ check lịch sử commit để xem tần suất code của từng
+sinh viên, loại bỏ việc một người gánh team, những người còn lại chỉ ké tên).
+2. Vấn đáp cá nhân & Thách thức sửa Code tại chỗ (1.5 điểm)
+● 0.5 điểm: Sinh viên làm chủ bài thuyết trình, demo ứng dụng chạy mượt mà không
+vấp.
+● 1.0 điểm (Vấn đáp): chấm điểm độc lập từng sinh viên bằng cách yêu cầu can
+thiệp trực tiếp vào mã nguồn ngay tại bàn vấn đáp:
+○ Yêu cầu 1: "Bây giờ em hãy vào SQL Server đổi cấu trúc bảng/đổi tên một Stored
+Procedure, sau đó sửa code Flutter làm sao để ứng dụng xử lý được lỗi này mà
+không bị sập."
+○ Yêu cầu 2: Giảng viên chỉ định một đoạn code truy vấn bất đồng bộ hoặc
+Transaction và yêu cầu sinh viên giải thích cơ chế giải phóng bộ nhớ, giải phóng
+kết nối (connection pooling) để tránh làm nghẽn SQL Server khi có nhiều máy
+
+cùng kết nối.
+○ Nếu sinh viên không tự viết code hoặc thuê người làm hộ, chắc chắn sẽ bị trừ trọn
+vẹn 1.5 điểm của phần này.
+PHÂN LOẠI
+1. Điểm Xuất Sắc (9.0 - 10.0): Ứng dụng kết nối SQL Server cực mượt qua
+WAN/LAN. Có sử dụng Stored Procedure/Transaction phức tạp để xử lý dữ liệu
+đồng thời. Giao diện có hiệu ứng loading chuyên nghiệp. Báo cáo vẽ sơ đồ cơ sở dữ
+liệu cực chuẩn.
+Vấn đáp: yêu cầu sửa code hay thay đổi câu lệnh SQL nào trên database đều làm
+được ngay tại chỗ. Có lịch sử commit Git dày đặc.
+2. Điểm Giỏi (8.0 - 8.9): Đạt mọi tiêu chí nâng cao về CRUD và Stored Procedure,
+ứng dụng xử lý ngoại lệ mất mạng tốt không bị sập.
+Tuy nhiên giao diện còn đôi chỗ chưa mượt, hoặc khi yêu cầu sửa code tại chỗ thì
+mất nhiều thời gian mới loay hoay xử lý xong.
+3. Điểm Khá (6.5 - 7.9): Ứng dụng chạy tốt các chức năng CRUD cơ bản trực tiếp
+xuống SQL Server. Nhưng toàn bộ câu lệnh đều là lệnh SQL thuần viết dưới App
+(Raw Query), chưa tối ưu bảo mật (vẫn dùng tài khoản sa hoặc lộ mật khẩu), chưa
+có Transaction cho các nghiệp vụ ràng buộc phức tạp. Vấn đáp giải thích được code
+mình làm nhưng kỹ năng xử lý tình huống trực tiếp còn yếu.
+4. Điểm Trung Bình (5.0 - 6.4): Ứng dụng chỉ chạy được giao diện tĩnh hoặc lưu dữ
+liệu giả (Mock data) ngay trên thiết bị. Kết nối đến SQL Server bị lỗi hoặc chỉ làm
+được duy nhất lệnh Select (Đọc dữ liệu) lên màn hình chứ không thực hiện được
+việc Insert/Update/Delete. Vấn đáp ú ớ khi hỏi sâu vào cơ chế bất đồng bộ.
+5. Dưới 5.0 (Không đạt): App lỗi biên dịch, mở lên là crash. Không có một dòng
+code nào thể hiện việc cấu hình hay kết nối với SQL Server. Sinh viên hoàn toàn
+không biết đoạn code trong máy hoạt động ra sao.

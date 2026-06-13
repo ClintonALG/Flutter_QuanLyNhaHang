@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+
+    <link rel="stylesheet" href="../css/displayFood.css">
+    <link rel="stylesheet" href="../css/analytics.css">
+    <link rel="stylesheet" href="../css/share.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Daterangepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+    <!-- Daterangepicker JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Dữ liệu từ SQL Server qua API backend (Node.js) -->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="nav-header">
+                <img src="../imgs/logo/logo.png" alt="" width="78px">
+            </div>
+            <div class="side-left">
+                <ul class="side-menu">
+                    <li>
+                        <a href="./DisplayFood.html">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Danh sách món ăn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./Analytics.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span>Thống kê</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./TableManagement.html">
+                            <i class="fa-solid fa-table"></i>
+                            <span>Quản lý bàn</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./VoucherManagement.html">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Voucher</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="./EmployeeManagement.html">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Nhân viên</span>
+                        </a>
+                    </li>
+
+                    <li>
+                            <a href="#" onclick="logout(); return false;">
+                                <i class="fa-solid fa-sign-out-alt"></i>
+                                <span>Đăng xuất</span>
+                            </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="statistics">
+                Tổng món ăn có trong menu:
+                <span id="total-products"></span>
+            </div>
+            <div class="statistics">
+                Tổng món ăn đã bán:
+                <span id="total-products-sold"></span>
+            </div>
+            <div class="analytics">
+                <h5><i class="fa-solid fa-chart-line"></i> Thống kê tổng doanh thu</h5>
+                <div class="toggle-group mt-3 mb-3">
+                    <button class="btn btn-outline-primary active" id="btn-month" onclick="switchView('month')">Theo tháng</button>
+                    <button class="btn btn-outline-primary" id="btn-day" onclick="switchView('day')">Theo ngày</button>
+                </div>
+                <div class="revenue-amount">
+                    Tổng tiền (trước giảm): <strong id="total-gross"></strong><br>
+                    Thành tiền (sau giảm): <strong id="total-revenue"></strong>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            <div class="detail-analytics">
+                <h4>Chi tiết theo ngày (click vào cột trên biểu đồ):</h4>
+                <table class="table" id="detail-revenue" aria-label="Chi tiết doanh thu">
+                    <thead>
+                        <tr>
+                            <th>Món ăn</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/Analytics/totalProduct.js"></script>
+    <script src="../js/Analytics/totalSold.js"></script>
+    <script src="../js/Analytics/detailAnalytics.js"></script>
+
+</body>
+
+</html>

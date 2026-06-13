@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Project_Food_Admin"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Project_Food_Admin"
+	}
+}
