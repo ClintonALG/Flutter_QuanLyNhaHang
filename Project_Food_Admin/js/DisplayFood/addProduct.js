@@ -29,6 +29,8 @@ cancelBtn.addEventListener('click', function () {
     addBtn.style.display = 'block';
     window.editProductId = null;
     window.currentEditingImage = '';
+    const preview = document.getElementById('image-preview');
+    if (preview) { preview.style.display = 'none'; preview.src = ''; }
 });
 
 // Xử lý submit - vừa thêm vừa sửa
@@ -50,7 +52,7 @@ formAddProduct.addEventListener('submit', async function (event) {
         const formData = new FormData();
         formData.append('image', imgInput.files[0]);
         try {
-            const uploadRes = await fetch(API_BASE + '/menu/upload', {
+            const uploadRes = await apiFetch(API_BASE + '/menu/upload', {
                 method: 'POST', body: formData
             });
             if (uploadRes.ok) {
@@ -70,7 +72,7 @@ formAddProduct.addEventListener('submit', async function (event) {
 
         if (isEdit) {
             // Sửa
-            response = await fetch(`${API_BASE}/menu/${window.editProductId}`, {
+            response = await apiFetch(`${API_BASE}/menu/${window.editProductId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -81,7 +83,7 @@ formAddProduct.addEventListener('submit', async function (event) {
             });
         } else {
             // Thêm
-            response = await fetch(API_BASE + "/menu", {
+            response = await apiFetch(API_BASE + "/menu", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -98,6 +100,9 @@ formAddProduct.addEventListener('submit', async function (event) {
             formAddProduct.style.display = 'none';
             addBtn.style.display = 'block';
             window.editProductId = null;
+            window.currentEditingImage = '';
+            const preview = document.getElementById('image-preview');
+            if (preview) { preview.style.display = 'none'; preview.src = ''; }
             await loadMenu();
         } else {
             const err = await response.json();

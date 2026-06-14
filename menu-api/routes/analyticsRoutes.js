@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../db');
+const { sendDbError } = require('../dbError');
 const router = express.Router();
 
 // ==========================================
@@ -20,8 +21,7 @@ router.get('/revenue', async (req, res) => {
         const totalRevenue = orders.reduce((sum, o) => sum + (o.DoanhThu || 0), 0);
         res.json({ totalRevenue, orders: result.recordset });
     } catch (err) {
-        console.error('Lỗi thống kê doanh thu:', err);
-        res.status(500).json({ message: 'Không thể lấy dữ liệu doanh thu' });
+        sendDbError(res, err, 'Không thể lấy dữ liệu doanh thu');
     }
 });
 
@@ -55,8 +55,7 @@ router.get('/revenue-all', async (req, res) => {
         }
         res.json({ orders });
     } catch (err) {
-        console.error('Lỗi lấy tất cả doanh thu:', err);
-        res.status(500).json({ message: 'Không thể lấy dữ liệu doanh thu' });
+        sendDbError(res, err, 'Không thể lấy dữ liệu doanh thu');
     }
 });
 
@@ -73,8 +72,7 @@ router.get('/products-sold', async (req, res) => {
         `);
         res.json({ totalSold: result.recordset[0].TotalSold });
     } catch (err) {
-        console.error('Lỗi đếm sản phẩm:', err);
-        res.status(500).json({ message: 'Không thể đếm sản phẩm đã bán' });
+        sendDbError(res, err, 'Không thể đếm sản phẩm đã bán');
     }
 });
 
@@ -89,6 +87,7 @@ router.get('/detail-revenue', async (req, res) => {
         }
         let query;
         const params = {};
+        let discountInfoQuery;
         if (date) {
             query = `
                 SELECT cthd.SoLuong, cthd.DonGia, cthd.ThanhTien, ma.Ten AS TenMonAn
@@ -99,6 +98,11 @@ router.get('/detail-revenue', async (req, res) => {
                   AND hd.TrangThai = N'Đã thanh toán'
             `;
             params.date = date;
+            discountInfoQuery = `
+                SELECT SUM(TongTien) AS TongCong, SUM(TienGiam) AS TienGiam
+                FROM HoaDon
+                WHERE CAST(NgayTao AS DATE) = @date AND TrangThai = N'Đã thanh toán'
+            `;
         } else {
             query = `
                 SELECT cthd.SoLuong, cthd.DonGia, cthd.ThanhTien, ma.Ten AS TenMonAn
@@ -110,12 +114,22 @@ router.get('/detail-revenue', async (req, res) => {
             `;
             params.startDate = startDate;
             params.endDate = endDate;
+            discountInfoQuery = `
+                SELECT SUM(TongTien) AS TongCong, SUM(TienGiam) AS TienGiam
+                FROM HoaDon
+                WHERE CAST(NgayTao AS DATE) BETWEEN @startDate AND @endDate AND TrangThai = N'Đã thanh toán'
+            `;
         }
         const result = await db.executeParameterizedQuery(query, params);
-        res.json({ items: result.recordset });
+        const discountResult = await db.executeParameterizedQuery(discountInfoQuery, params);
+        const discountInfo = discountResult.recordset[0] || { TongCong: 0, TienGiam: 0 };
+        res.json({
+            items: result.recordset,
+            tongCong: discountInfo.TongCong || 0,
+            tienGiam: discountInfo.TienGiam || 0
+        });
     } catch (err) {
-        console.error('Lỗi chi tiết doanh thu:', err);
-        res.status(500).json({ message: 'Không thể lấy chi tiết doanh thu' });
+        sendDbError(res, err, 'Không thể lấy chi tiết doanh thu');
     }
 });
 
@@ -136,8 +150,7 @@ router.get('/best-selling', async (req, res) => {
         }
         res.json(result.recordset);
     } catch (err) {
-        console.error('Lỗi lấy món bán chạy:', err);
-        res.status(500).json({ message: 'Không thể lấy dữ liệu món bán chạy' });
+        sendDbError(res, err, 'Không thể lấy dữ liệu món bán chạy');
     }
 });
 

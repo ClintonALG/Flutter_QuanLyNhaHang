@@ -5,6 +5,7 @@ class OrderItem {
   double price;
   int quantity;
   String ghiChu;
+  int? chiTietId;
 
   OrderItem({
     required this.monAnId,
@@ -12,6 +13,7 @@ class OrderItem {
     required this.price,
     this.quantity = 1,
     this.ghiChu = '',
+    this.chiTietId,
   });
 
   Map<String, dynamic> toJson() => {

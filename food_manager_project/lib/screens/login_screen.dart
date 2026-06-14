@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_manager_project/screens/home_screen.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
 /// Màn hình đăng nhập
 /// 
@@ -45,35 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => HomeScreen(user: user)),
       );
     } catch (e) {
-      setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
-      // Xử lý timeout và lỗi mạng: hiển thị dialog hướng dẫn
-      if (e.toString().contains('kết nối') || e.toString().contains('timed out')) {
-        if (mounted) _showConnectionErrorDialog();
+      if (mounted) {
+        if (e is ApiException && e.isConnectionError) {
+          showApiError(context, e, onRetry: _login);
+        } else {
+          setState(() => _error = e is ApiException ? e.message : e.toString());
+        }
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
-  }
-
-  /// Hiển thị dialog khi mất kết nối server
-  void _showConnectionErrorDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Mất kết nối'),
-        content: const Text('Không thể kết nối đến SQL Server.\n'
-            'Vui lòng kiểm tra:\n'
-            '1. Server backend đã chạy (npm start)\n'
-            '2. SQL Server đang hoạt động\n'
-            '3. Kết nối mạng giữa thiết bị và server'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Đã hiểu'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override

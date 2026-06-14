@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
-/// Màn hình danh sách bàn ăn
-/// 
-/// Hiển thị lưới các bàn với trạng thái (Còn trống / Đang sử dụng),
-/// cho phép lọc theo trạng thái và chọn bàn để bắt đầu phục vụ.
-/// Dữ liệu lấy từ SQL Server qua API backend.
 class BanScreen extends StatefulWidget {
   final Map<String, dynamic> user;
+  final bool selectMode;
 
-  const BanScreen({super.key, required this.user});
+  const BanScreen({super.key, required this.user, this.selectMode = true});
 
   @override
   State<BanScreen> createState() => _BanScreenState();
 }
 
-class _BanScreenState extends State<BanScreen> {
+class _BanScreenState extends State<BanScreen> with WidgetsBindingObserver {
   List<Map<String, dynamic>> danhSachBan = [];
   bool? _filterStatus;
   bool _isLoading = true;
+  bool _swapMode = false;
+  Map<String, dynamic>? _swapSource;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     loadDanhSachBan();
   }
 
-  /// Tải danh sách bàn từ SQL Server
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) loadDanhSachBan();
+  }
+
   Future<void> loadDanhSachBan() async {
     try {
       setState(() => _isLoading = true);
@@ -37,40 +47,72 @@ class _BanScreenState extends State<BanScreen> {
           'id': t['Id'],
           'names': t['TenBan'] ?? 'Bàn không tên',
           'status': t['TrangThai'] ?? 'Còn trống',
+          'hoaDonId': t['HoaDonId'],
         }).toList();
         _isLoading = false;
       });
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${e.toString().replaceFirst("Exception: ", "")}')),
-        );
+        showApiError(context, e, onRetry: loadDanhSachBan);
       }
     }
   }
 
-  /// Trả về màu sắc dựa trên trạng thái bàn
   Color layMauBan(String status) {
     return status == 'Đang sử dụng' ? Colors.amber : Colors.grey;
   }
 
-  /// Xử lý khi chọn bàn - chỉ trả về tên bàn, không cập nhật trạng thái
-  /// Trạng thái bàn sẽ được cập nhật khi đặt hàng thành công (trong sp_DatHang)
-  Future<void> _chonBan(Map<String, dynamic> ban) async {
+  void _chonBan(Map<String, dynamic> ban) {
     if (ban['status'] == 'Đang sử dụng') {
+      for (final b in danhSachBan) {
+        if (b['id'] == ban['id']) {
+          Navigator.pop(context, b);
+          return;
+        }
+      }
+    }
+    Navigator.pop(context, ban);
+  }
+
+  Future<void> _startSwap(Map<String, dynamic> ban) async {
+    setState(() {
+      _swapMode = true;
+      _swapSource = ban;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Chọn bàn muốn đổi với ${ban['names']}')),
+    );
+  }
+
+  Future<void> _doSwap(Map<String, dynamic> target) async {
+    if (_swapSource == null) return;
+    if (_swapSource!['id'] == target['id']) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bàn đang sử dụng, không thể chọn!')),
+        const SnackBar(content: Text('Không thể đổi với chính nó')),
       );
+      setState(() { _swapMode = false; _swapSource = null; });
       return;
     }
+    try {
+      await ApiService.renameTable(_swapSource!['id'], target['names']);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đã đổi ${_swapSource!['names']} với ${target['names']}')),
+      );
+    } catch (e) {
+      if (mounted) showApiError(context, e);
+    }
+    setState(() { _swapMode = false; _swapSource = null; });
+    loadDanhSachBan();
+  }
 
-    Navigator.pop(context, ban['names']);
+  void _cancelSwap() {
+    setState(() { _swapMode = false; _swapSource = null; });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Lọc bàn theo trạng thái
     final banHienThi = _filterStatus == null
         ? danhSachBan
         : danhSachBan.where((ban) =>
@@ -79,12 +121,26 @@ class _BanScreenState extends State<BanScreen> {
                 : ban['status'] == 'Còn trống').toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Chọn bàn')),
+      appBar: AppBar(
+        title: Text(_swapMode ? 'Chọn bàn để đổi' : 'Chọn bàn'),
+        actions: _swapMode
+            ? [TextButton(onPressed: _cancelSwap, child: const Text('Hủy', style: TextStyle(color: Colors.white)))]
+            : (widget.selectMode
+                ? []
+                : [IconButton(
+                    icon: const Icon(Icons.swap_horiz),
+                    tooltip: 'Đổi chỗ bàn',
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Nhấn giữ bàn để chọn đổi chỗ')),
+                      );
+                    },
+                  )]),
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                // Bộ lọc trạng thái
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
@@ -118,7 +174,6 @@ class _BanScreenState extends State<BanScreen> {
                     ],
                   ),
                 ),
-                // Lưới danh sách bàn
                 Expanded(
                   child: GridView.builder(
                     padding: const EdgeInsets.all(8),
@@ -132,13 +187,24 @@ class _BanScreenState extends State<BanScreen> {
                     itemBuilder: (context, index) {
                       final ban = banHienThi[index];
                       final String status = ban['status'] ?? 'Còn trống';
+                      final bool isTarget = _swapMode && _swapSource != null && _swapSource!['id'] == ban['id'];
 
                       return GestureDetector(
-                        onTap: () => _chonBan(ban),
+                        onTap: () {
+                          if (_swapMode) {
+                            _doSwap(ban);
+                          } else {
+                            _chonBan(ban);
+                          }
+                        },
+                        onLongPress: widget.selectMode
+                            ? null
+                            : () => _startSwap(ban),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: layMauBan(status),
+                            color: isTarget ? Colors.blue.shade200 : layMauBan(status),
                             borderRadius: BorderRadius.circular(8),
+                            border: isTarget ? Border.all(color: Colors.blue, width: 3) : null,
                           ),
                           child: Center(
                             child: Text(

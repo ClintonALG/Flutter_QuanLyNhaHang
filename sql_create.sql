@@ -384,6 +384,7 @@ AS
 BEGIN
     SELECT
         cthd.Id,
+        cthd.MonAnId,
         (SELECT Ten FROM MonAn WHERE Id = cthd.MonAnId) AS TenMonAn,
         cthd.SoLuong, cthd.DonGia, cthd.ThanhTien, cthd.GhiChu
     FROM ChiTietHoaDon cthd
@@ -479,7 +480,42 @@ BEGIN
 END
 GO
 
--- 4.17. sp_NhanVienList: Danh sách nhân viên (không trả về mật khẩu)
+-- 4.17. sp_VoucherDelete: Xóa voucher
+CREATE PROCEDURE sp_VoucherDelete
+    @Id INT
+AS
+BEGIN
+    DELETE FROM Voucher WHERE Id = @Id
+END
+GO
+
+-- 4.18. sp_XoaBan: Xóa bàn (có transaction, xóa HoaDon + ChiTietHoaDon trước)
+CREATE PROCEDURE sp_XoaBan
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON
+    BEGIN TRY
+        BEGIN TRANSACTION
+        IF EXISTS (SELECT 1 FROM HoaDon WHERE BanId = @Id AND TrangThai = N'Chưa thanh toán')
+        BEGIN
+            RAISERROR(N'Không thể xóa bàn đang có hóa đơn chưa thanh toán', 16, 1)
+            ROLLBACK RETURN
+        END
+        DELETE FROM ChiTietHoaDon WHERE HoaDonId IN (SELECT Id FROM HoaDon WHERE BanId = @Id)
+        DELETE FROM HoaDon WHERE BanId = @Id
+        DELETE FROM Ban WHERE Id = @Id
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION
+        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE()
+        RAISERROR(@ErrMsg, 16, 1)
+    END CATCH
+END
+GO
+
+-- 4.19. sp_NhanVienList: Danh sách nhân viên (không trả về mật khẩu)
 CREATE PROCEDURE sp_NhanVienList
 AS
 BEGIN
@@ -487,7 +523,7 @@ BEGIN
 END
 GO
 
--- 4.18. sp_NhanVienAdd: Thêm nhân viên
+-- 4.20. sp_NhanVienAdd: Thêm nhân viên
 CREATE PROCEDURE sp_NhanVienAdd
     @TenDangNhap NVARCHAR(50), @MatKhau NVARCHAR(256),
     @HoTen NVARCHAR(100), @VaiTro NVARCHAR(50) = N'Nhân viên'
@@ -501,7 +537,7 @@ BEGIN
 END
 GO
 
--- 4.19. sp_NhanVienUpdate: Cập nhật nhân viên
+-- 4.21. sp_NhanVienUpdate: Cập nhật nhân viên
 CREATE PROCEDURE sp_NhanVienUpdate
     @Id INT, @TenDangNhap NVARCHAR(50),
     @MatKhau NVARCHAR(256) = NULL,
@@ -518,7 +554,7 @@ BEGIN
 END
 GO
 
--- 4.20. sp_NhanVienDelete: Xóa nhân viên
+-- 4.22. sp_NhanVienDelete: Xóa nhân viên
 CREATE PROCEDURE sp_NhanVienDelete
     @Id INT
 AS
@@ -583,6 +619,8 @@ GO
  GRANT EXECUTE ON sp_VoucherAdd TO quanlytamthoi
  GRANT EXECUTE ON sp_VoucherUpdate TO quanlytamthoi
  GRANT EXECUTE ON sp_VoucherToggle TO quanlytamthoi
+ GRANT EXECUTE ON sp_VoucherDelete TO quanlytamthoi
+ GRANT EXECUTE ON sp_XoaBan TO quanlytamthoi
  GRANT EXECUTE ON sp_NhanVienList TO quanlytamthoi
  GRANT EXECUTE ON sp_NhanVienAdd TO quanlytamthoi
  GRANT EXECUTE ON sp_NhanVienUpdate TO quanlytamthoi

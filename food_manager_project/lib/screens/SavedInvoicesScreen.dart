@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:food_manager_project/screens/CreateOrder_Screen.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
 /// Màn hình phiếu tạm tính (hóa đơn chưa thanh toán)
 /// 
@@ -14,7 +16,7 @@ class SavedInvoicesScreen extends StatefulWidget {
   State<SavedInvoicesScreen> createState() => _SavedInvoicesScreenState();
 }
 
-class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> {
+class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> with WidgetsBindingObserver {
   List<Map<String, dynamic>> unpaidInvoices = [];
   List<Map<String, dynamic>> paidInvoices = [];
   List<Map<String, dynamic>> _filteredList = [];
@@ -26,7 +28,20 @@ class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadInvoices();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _loadInvoices();
   }
 
   Future<void> _loadInvoices() async {
@@ -46,9 +61,7 @@ class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${e.toString().replaceFirst("Exception: ", "")}')),
-        );
+        showApiError(context, e, onRetry: _loadInvoices);
       }
     }
   }
@@ -206,9 +219,7 @@ class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> {
     } catch (e) {
       if (mounted) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${e.toString().replaceFirst("Exception: ", "")}')),
-        );
+        showApiError(context, e, onRetry: () => _payInvoice(hoaDonId, tongTien: tongTien));
       }
     }
   }
@@ -456,11 +467,27 @@ class _SavedInvoicesScreenState extends State<SavedInvoicesScreen> {
                                         if (mounted) _showReceipt(inv, items);
                                       },
                                     ),
-                                    if (_selectedTab == 0)
+                                    if (_selectedTab == 0) ...[
+                                      IconButton(
+                                        icon: const Icon(Icons.edit, color: Colors.blue),
+                                        onPressed: () async {
+                                          final result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => CreateOrderScreen(
+                                                user: {'Id': inv['NhanVienId'] ?? 0},
+                                                editHoaDonId: inv['Id'],
+                                              ),
+                                            ),
+                                          );
+                                          if (result == true) _loadInvoices();
+                                        },
+                                      ),
                                       IconButton(
                                         icon: const Icon(Icons.payment, color: Colors.green),
                                         onPressed: () => _payInvoice(inv['Id'], tongTien: tongTien),
                                       ),
+                                    ],
                                   ],
                                 ),
                               ),

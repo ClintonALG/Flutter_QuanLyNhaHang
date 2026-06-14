@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 
 // Đọc cấu hình kết nối từ file appsettings.json
-// Mục đích: Tránh hardcode chuỗi kết nối trong code Dart/JS, dễ dàng thay đổi cấu hình
 const configPath = path.join(__dirname, 'appsettings.json');
 let config = {};
 
@@ -12,7 +11,6 @@ try {
   const settings = JSON.parse(raw);
   const connStr = settings.ConnectionStrings.QuanLyNhaHang;
 
-  // Parse chuỗi kết nối thành object config cho mssql
   const parts = connStr.split(';');
   parts.forEach(part => {
     const [key, ...vals] = part.split('=');
@@ -26,11 +24,16 @@ try {
       case 'TrustServerCertificate': config.options = { ...config.options, trustServerCertificate: val === 'True' }; break;
     }
   });
-  config.options = { ...config.options, connectTimeout: 30000, requestTimeout: 30000 };
-  console.log('Đã đọc cấu hình kết nối SQL Server từ appsettings.json');
+  const timeout = settings.SqlTimeout || {};
+  config.options = {
+    ...config.options,
+    encrypt: false,
+    trustServerCertificate: true,
+    connectTimeout: timeout.ConnectMs ?? 30000,
+    requestTimeout: timeout.RequestMs ?? 30000,
+    cancelTimeout: timeout.CancelMs ?? 5000
+  };
 } catch (err) {
-  console.error('Không thể đọc appsettings.json, sử dụng cấu hình mặc định:', err.message);
-  // Fallback: cấu hình mặc định cho phát triển
   config = {
     server: 'localhost',
     database: 'QuanLyNhaHang',
@@ -40,26 +43,77 @@ try {
       encrypt: false,
       trustServerCertificate: true,
       connectTimeout: 30000,
-      requestTimeout: 30000
+      requestTimeout: 30000,
+      cancelTimeout: 5000
     }
   };
 }
 
-// Tạo connection pool duy nhất cho toàn bộ ứng dụng
-// Mục đích: Connection pooling giúp tái sử dụng kết nối, tránh tạo mới mỗi request
 const pool = new sql.ConnectionPool(config);
+let poolConnected = false;
 
-// Kết nối pool khi khởi động
+pool.on('error', err => {
+  console.error('Connection pool lỗi:', err.message);
+  poolConnected = false;
+});
+
+async function ensureConnected() {
+  if (!poolConnected) {
+    try {
+      await pool.connect();
+      poolConnected = true;
+      console.log('Đã kết nối SQL Server thành công!');
+    } catch (err) {
+      poolConnected = false;
+      const dbErr = new Error('Không thể kết nối đến SQL Server. Vui lòng kiểm tra: (1) SQL Server đang chạy, (2) Server name/port đúng, (3) Tường lửa không chặn.');
+      dbErr.code = 'ECONNREFUSED';
+      throw dbErr;
+    }
+  }
+}
+
 pool.connect()
-  .then(() => console.log('Đã kết nối SQL Server thành công!'))
-  .catch(err => console.error('Lỗi kết nối SQL Server:', err.message));
+  .then(() => {
+    poolConnected = true;
+    console.log('Đã kết nối SQL Server thành công!');
+  })
+  .catch(err => {
+    poolConnected = false;
+    console.error('Lỗi kết nối SQL Server:', err.message);
+  });
 
-// Hàm helper thực thi stored procedure
-// @param procedureName: Tên stored procedure
-// @param params: Object chứa các tham số { key: value }
-// @returns: Kết quả trả về từ SP
+function classifyError(err) {
+  if (!err) return err;
+  if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND' || err.code === 'ETIMEDOUT' || err.code === 'ESOCKET') {
+    const dbErr = new Error('Không thể kết nối đến SQL Server. Vui lòng kiểm tra: (1) SQL Server đang chạy, (2) Server name/port đúng, (3) Tường lửa không chặn.');
+    dbErr.statusCode = 503;
+    dbErr.isConnectionError = true;
+    return dbErr;
+  }
+  if (err.code === 'EREQUEST' && err.number === -2) {
+    const timeoutErr = new Error('SQL Server không phản hồi (timeout). Vui lòng kiểm tra kết nối mạng.');
+    timeoutErr.statusCode = 503;
+    timeoutErr.isConnectionError = true;
+    return timeoutErr;
+  }
+  if (err.message && (err.message.includes('timeout') || err.message.includes('timed out'))) {
+    const timeoutErr = new Error('SQL Server không phản hồi (timeout). Vui lòng kiểm tra kết nối mạng.');
+    timeoutErr.statusCode = 503;
+    timeoutErr.isConnectionError = true;
+    return timeoutErr;
+  }
+  if (err.message && (err.message.includes('login') || err.message.includes('login failed'))) {
+    const authErr = new Error('Đăng nhập SQL Server thất bại. Vui lòng kiểm tra User ID và Password.');
+    authErr.statusCode = 500;
+    authErr.isConnectionError = true;
+    return authErr;
+  }
+  return err;
+}
+
 async function executeProcedure(procedureName, params = {}) {
   try {
+    await ensureConnected();
     const request = pool.request();
     Object.entries(params).forEach(([key, value]) => {
       request.input(key, value);
@@ -67,24 +121,23 @@ async function executeProcedure(procedureName, params = {}) {
     const result = await request.execute(procedureName);
     return result;
   } catch (err) {
-    throw err;
+    throw classifyError(err);
   }
 }
 
-// Hàm helper thực thi câu lệnh SQL
-// @param query: Câu lệnh SQL
-// @returns: Kết quả trả về
 async function executeQuery(query) {
   try {
+    await ensureConnected();
     const result = await pool.request().query(query);
     return result;
   } catch (err) {
-    throw err;
+    throw classifyError(err);
   }
 }
 
 async function executeParameterizedQuery(query, params = {}) {
   try {
+    await ensureConnected();
     const request = pool.request();
     Object.entries(params).forEach(([key, value]) => {
       request.input(key, value);
@@ -92,7 +145,7 @@ async function executeParameterizedQuery(query, params = {}) {
     const result = await request.query(query);
     return result;
   } catch (err) {
-    throw err;
+    throw classifyError(err);
   }
 }
 

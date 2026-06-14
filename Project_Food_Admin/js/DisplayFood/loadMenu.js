@@ -6,7 +6,7 @@
  */
 async function loadMenu() {
     try {
-        const response = await fetch(API_BASE + "/menu?all=true");
+        const response = await apiFetch(API_BASE + "/menu?all=true");
         if (!response.ok) {
             document.querySelector(".product-table tbody").innerHTML = '<tr><td colspan="7" style="text-align:center;color:red;">Lỗi kết nối API (mã: ' + response.status + ')</td></tr>';
             return;
@@ -57,7 +57,7 @@ async function loadMenu() {
 
 async function toggleStatus(id) {
     try {
-        const res = await fetch(`${API_BASE}/menu/${id}/toggle`, { method: 'PUT' });
+        const res = await apiFetch(`${API_BASE}/menu/${id}/toggle`, { method: 'PUT' });
         if (res.ok) {
             await loadMenu();
         } else {
@@ -83,11 +83,17 @@ function editProduct(id) {
     form.scrollIntoView({ behavior: 'smooth' });
 
     window.editProductId = id;
-    window.currentEditingImage = cells[2].querySelector('img')?.src || '';
+
+    // Lưu đường dẫn tương đối của ảnh (loại bỏ base URL)
+    const fullSrc = cells[2].querySelector('img')?.src || '';
+    const baseUrl = API_BASE.replace('/api', '');
+    window.currentEditingImage = fullSrc.startsWith(baseUrl)
+        ? fullSrc.substring(baseUrl.length)
+        : fullSrc;
 
     const imagePreview = document.getElementById('image-preview');
     if (imagePreview) {
-        imagePreview.src = window.currentEditingImage;
+        imagePreview.src = fullSrc;
         imagePreview.style.display = 'block';
     }
 

@@ -90,6 +90,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/apiClient.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/sidebar.js"></script>
     <script>
@@ -129,7 +130,7 @@
         async function loadEmployees() {
             const container = document.getElementById('empList');
             try {
-                const res = await fetch(API + '/employees');
+                const res = await apiFetch(API + '/employees');
                 const data = await res.json();
                 if (!data || data.length === 0) {
                     container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-users"></i><p>Chưa có nhân viên nào</p></div>';
@@ -166,13 +167,13 @@
             try {
                 let res;
                 if (editingId) {
-                    res = await fetch(API + '/employees/' + editingId, {
+                    res = await apiFetch(API + '/employees/' + editingId, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ tenDangNhap, matKhau: matKhau || null, hoTen, vaiTro })
                     });
                 } else {
-                    res = await fetch(API + '/employees', {
+                    res = await apiFetch(API + '/employees', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ tenDangNhap, matKhau, hoTen, vaiTro })
@@ -192,7 +193,7 @@
         async function deleteEmployee(id) {
             if (!confirm('Xóa nhân viên này?')) return;
             try {
-                const res = await fetch(API + '/employees/' + id, { method: 'DELETE' });
+                const res = await apiFetch(API + '/employees/' + id, { method: 'DELETE' });
                 const result = await res.json();
                 if (res.ok) {
                     loadEmployees();

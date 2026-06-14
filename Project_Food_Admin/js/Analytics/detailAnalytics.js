@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchAllRevenue() {
     try {
-        const response = await fetch(API_BASE + '/revenue-all');
+        const response = await apiFetch(API_BASE + '/revenue-all');
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
         allOrders = data.orders || [];
@@ -140,14 +140,14 @@ async function processMonthDetail(monthKey) {
     try {
         const start = moment(monthKey, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
         const end = moment(monthKey, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
-        const response = await fetch(`${API_BASE}/detail-revenue?startDate=${start}&endDate=${end}`);
+        const response = await apiFetch(`${API_BASE}/detail-revenue?startDate=${start}&endDate=${end}`);
         const data = await response.json();
         const items = (data.items || []).map(item => ({
             name: item.TenMonAn || 'Không xác định',
             price: item.DonGia || 0,
             quantity: item.SoLuong || 1
         }));
-        renderOrderDetails(items);
+        renderOrderDetails(items, data.tongCong || 0, data.tienGiam || 0);
     } catch (error) {
         console.error('Lỗi chi tiết:', error);
         showNoDataMessage('Lỗi tải dữ liệu');
@@ -164,7 +164,7 @@ async function processDayDetail(ngay) {
 
     try {
         const formattedDate = moment(ngay).format('YYYY-MM-DD');
-        const response = await fetch(`${API_BASE}/detail-revenue?date=${formattedDate}`);
+        const response = await apiFetch(`${API_BASE}/detail-revenue?date=${formattedDate}`);
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
         const items = (data.items || []).map(item => ({
@@ -172,14 +172,14 @@ async function processDayDetail(ngay) {
             price: item.DonGia || 0,
             quantity: item.SoLuong || 1
         }));
-        renderOrderDetails(items);
+        renderOrderDetails(items, data.tongCong || 0, data.tienGiam || 0);
     } catch (error) {
         console.error('Lỗi chi tiết:', error);
         showNoDataMessage('Lỗi tải dữ liệu');
     }
 }
 
-function renderOrderDetails(items) {
+function renderOrderDetails(items, tongCong, tienGiam) {
     const tbody = document.querySelector('#detail-revenue tbody');
     if (!tbody) return;
     tbody.innerHTML = '';
@@ -206,12 +206,33 @@ function renderOrderDetails(items) {
         tbody.appendChild(row);
     });
 
+    const tienGiamNum = parseFloat(tienGiam) || 0;
+    const thanhTien = totalAmount - tienGiamNum;
+
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
-        <td colspan="3"><strong>Tổng cộng</strong></td>
+        <td colspan="3"><strong>Tổng tiền hàng</strong></td>
         <td><strong>${totalAmount.toLocaleString('vi-VN')} ₫</strong></td>
     `;
     tbody.appendChild(totalRow);
+
+    if (tienGiamNum > 0) {
+        const discountRow = document.createElement('tr');
+        discountRow.style.color = '#2e7d32';
+        discountRow.innerHTML = `
+            <td colspan="3"><strong>Giảm giá (Voucher)</strong></td>
+            <td><strong>-${tienGiamNum.toLocaleString('vi-VN')} ₫</strong></td>
+        `;
+        tbody.appendChild(discountRow);
+
+        const finalRow = document.createElement('tr');
+        finalRow.style.color = '#c62828';
+        finalRow.innerHTML = `
+            <td colspan="3"><strong>Thành tiền</strong></td>
+            <td><strong>${thanhTien.toLocaleString('vi-VN')} ₫</strong></td>
+        `;
+        tbody.appendChild(finalRow);
+    }
 }
 
 function showNoDataMessage(message) {

@@ -40,6 +40,8 @@ GRANT EXECUTE ON sp_VoucherList TO app_user;
 GRANT EXECUTE ON sp_VoucherAdd TO app_user;
 GRANT EXECUTE ON sp_VoucherUpdate TO app_user;
 GRANT EXECUTE ON sp_VoucherToggle TO app_user;
+GRANT EXECUTE ON sp_VoucherDelete TO app_user;
+GRANT EXECUTE ON sp_XoaBan TO app_user;
 GRANT EXECUTE ON sp_NhanVienList TO app_user;
 GRANT EXECUTE ON sp_NhanVienAdd TO app_user;
 GRANT EXECUTE ON sp_NhanVienUpdate TO app_user;

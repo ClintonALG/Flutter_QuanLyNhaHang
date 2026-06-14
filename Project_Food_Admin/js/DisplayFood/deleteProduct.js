@@ -21,7 +21,7 @@ deleBtn.addEventListener('click', async function (event) {
     let successCount = 0;
     for (const id of idDelete) {
         try {
-            const response = await fetch(`${API_BASE}/menu/${id}`, {
+            const response = await apiFetch(`${API_BASE}/menu/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) successCount++;

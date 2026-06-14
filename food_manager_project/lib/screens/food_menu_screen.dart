@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:food_manager_project/models/order_item.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
 /// Màn hình thực đơn món ăn
 /// 
@@ -51,9 +52,7 @@ class _MenuScreenState extends State<MenuScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${e.toString().replaceFirst("Exception: ", "")}')),
-        );
+        showApiError(context, e, onRetry: _loadData);
       }
     }
   }
@@ -107,7 +106,10 @@ class _MenuScreenState extends State<MenuScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+        showApiError(context, e, onRetry: () => _filterByCategory(category));
+      }
     }
   }
 
@@ -125,7 +127,10 @@ class _MenuScreenState extends State<MenuScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+        showApiError(context, e, onRetry: () => _search(query));
+      }
     }
   }
 
@@ -190,10 +195,11 @@ class _MenuScreenState extends State<MenuScreen> {
                           final base = kIsWeb ? 'http://localhost:3000' : (Platform.isAndroid ? 'http://10.0.2.2:3000' : 'http://localhost:3000');
                           final fullImageUrl = imageUrl.isNotEmpty ? '$base$imageUrl' : '';
 
-                          return GestureDetector(
-                            onTap: () => _selectItem(item),
-                            child: Card(
-                              elevation: 4,
+                          return Card(
+                            elevation: 4,
+                            child: InkWell(
+                              onTap: () => _selectItem(item),
+                              borderRadius: BorderRadius.circular(12),
                               child: Column(
                                 children: [
                                   Expanded(

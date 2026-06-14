@@ -6,6 +6,7 @@ import 'package:food_manager_project/screens/food_menu_screen.dart';
 import 'package:food_manager_project/screens/kitchen_screen.dart';
 import 'package:food_manager_project/screens/login_screen.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
 /// Màn hình chính sau khi đăng nhập
 /// 
@@ -43,8 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      print('Lỗi tải số bàn trống: $e');
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+        showApiError(context, e, onRetry: _loadSoBanTrong);
+      }
     }
   }
 
@@ -161,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Danh sách bàn',
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BanScreen(user: widget.user)),
+                      MaterialPageRoute(builder: (context) => BanScreen(user: widget.user, selectMode: false)),
                     ).then((_) => _loadSoBanTrong()),
                   ),
                   _buildQuickAction(

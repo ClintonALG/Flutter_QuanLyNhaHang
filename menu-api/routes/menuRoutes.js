@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const db = require('../db');
+const { sendDbError } = require('../dbError');
 const router = express.Router();
 
 const uploadDir = path.join(__dirname, '../public/imgs/products');
@@ -75,8 +76,7 @@ router.get('/', async (req, res) => {
         const result = await db.executeParameterizedQuery(query, params);
         res.json(result.recordset);
     } catch (err) {
-        console.error('Lỗi lấy menu:', err);
-        res.status(500).json({ message: 'Không thể lấy dữ liệu menu' });
+        sendDbError(res, err, 'Không thể lấy dữ liệu menu');
     }
 });
 
@@ -98,8 +98,7 @@ router.post('/', async (req, res) => {
         });
         res.status(201).json({ success: true, id: result.recordset[0]?.Id });
     } catch (err) {
-        console.error('Lỗi thêm món:', err);
-        res.status(500).json({ message: err.message });
+        sendDbError(res, err, 'Không thể thêm món');
     }
 });
 
@@ -121,8 +120,7 @@ router.put('/:id', async (req, res) => {
         });
         res.json({ success: true, message: 'Cập nhật thành công' });
     } catch (err) {
-        console.error('Lỗi cập nhật món:', err);
-        res.status(500).json({ message: err.message });
+        sendDbError(res, err, 'Không thể cập nhật món');
     }
 });
 
@@ -138,8 +136,7 @@ router.put('/:id/toggle', async (req, res) => {
         );
         res.json({ success: true });
     } catch (err) {
-        console.error('Lỗi đổi trạng thái món:', err);
-        res.status(500).json({ message: err.message });
+        sendDbError(res, err, 'Không thể đổi trạng thái món');
     }
 });
 
@@ -162,8 +159,7 @@ router.delete('/:id', async (req, res) => {
         await db.executeParameterizedQuery('DELETE FROM MonAn WHERE Id = @id', { id });
         res.json({ success: true, message: 'Đã xóa thành công' });
     } catch (err) {
-        console.error('Lỗi xóa món:', err);
-        res.status(500).json({ message: err.message });
+        sendDbError(res, err, 'Không thể xóa món');
     }
 });
 

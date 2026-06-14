@@ -80,6 +80,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/apiClient.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/sidebar.js"></script>
     <script>
@@ -112,7 +113,7 @@
         async function loadVouchers() {
             const container = document.getElementById('voucherList');
             try {
-                const res = await fetch(API + '/vouchers');
+                const res = await apiFetch(API + '/vouchers');
                 const data = await res.json();
                 if (!data || data.length === 0) {
                     container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-tag"></i><p>Chưa có voucher nào</p></div>';
@@ -146,13 +147,13 @@
             try {
                 let res;
                 if (editingId) {
-                    res = await fetch(API + '/vouchers/' + editingId, {
+                    res = await apiFetch(API + '/vouchers/' + editingId, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ ma, phanTramGiam: parseFloat(phanTram) })
                     });
                 } else {
-                    res = await fetch(API + '/vouchers', {
+                    res = await apiFetch(API + '/vouchers', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ ma, phanTramGiam: parseFloat(phanTram) })
@@ -171,7 +172,7 @@
 
         async function toggleVoucher(id) {
             try {
-                const res = await fetch(API + '/vouchers/' + id + '/toggle', { method: 'PUT' });
+                const res = await apiFetch(API + '/vouchers/' + id + '/toggle', { method: 'PUT' });
                 if (res.ok) loadVouchers();
             } catch (e) { alert('Lỗi kết nối'); }
         }
@@ -179,8 +180,13 @@
         async function deleteVoucher(id) {
             if (!confirm('Xóa voucher này?')) return;
             try {
-                const res = await fetch(API + '/vouchers/' + id, { method: 'DELETE' });
-                if (res.ok) loadVouchers();
+                const res = await apiFetch(API + '/vouchers/' + id, { method: 'DELETE' });
+                if (res.ok) {
+                    loadVouchers();
+                } else {
+                    const err = await res.json();
+                    alert(err.message || 'Không thể xóa voucher');
+                }
             } catch (e) { alert('Lỗi kết nối'); }
         }
 

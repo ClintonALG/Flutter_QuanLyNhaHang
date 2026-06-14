@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:food_manager_project/service/api_service.dart';
+import 'package:food_manager_project/widgets/error_helper.dart';
 
 /// Màn hình bếp - hiển thị danh sách món cần chế biến
 /// 
@@ -14,14 +15,26 @@ class KitchenScreen extends StatefulWidget {
   State<KitchenScreen> createState() => _KitchenScreenState();
 }
 
-class _KitchenScreenState extends State<KitchenScreen> {
+class _KitchenScreenState extends State<KitchenScreen> with WidgetsBindingObserver {
   List<Map<String, dynamic>> orders = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadOrders();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _loadOrders();
   }
 
   Future<void> _loadOrders() async {
@@ -31,7 +44,10 @@ class _KitchenScreenState extends State<KitchenScreen> {
       if (!mounted) return;
       setState(() { orders = result; _isLoading = false; });
     } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+        showApiError(context, e, onRetry: _loadOrders);
+      }
     }
   }
 
@@ -62,6 +78,15 @@ class _KitchenScreenState extends State<KitchenScreen> {
                       return FutureBuilder<List<Map<String, dynamic>>>(
                         future: ApiService.getInvoiceDetail(order['Id']),
                         builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Card(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: ListTile(
+                                title: Text('Bàn ${order['TenBan'] ?? ''}'),
+                                subtitle: Text('Lỗi tải chi tiết: ${snapshot.error}'),
+                              ),
+                            );
+                          }
                           if (!snapshot.hasData) {
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 8),

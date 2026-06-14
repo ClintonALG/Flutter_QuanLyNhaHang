@@ -5,7 +5,7 @@ const totalProduct = document.getElementById('total-products');
 async function getTotalProduct() {
 
     try {
-        const response = await fetch(API_BASE + "/menu");// gọi API
+        const response = await apiFetch(API_BASE + "/menu");// gọi API
 
         const products = await response.json();// lấy dữ liệu JSON
 

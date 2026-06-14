@@ -3,7 +3,7 @@ const getTotalSold = document.getElementById('total-products-sold');
 
 async function fetchTotalSold() {
     try {
-        const res = await fetch(API_BASE + '/products-sold');
+        const res = await apiFetch(API_BASE + '/products-sold');
 
         const data = await res.json();
 

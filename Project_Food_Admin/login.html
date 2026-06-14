@@ -98,6 +98,7 @@
     </div>
 
     <script src="./js/config.js"></script>
+    <script src="./js/apiClient.js"></script>
     <script>
 
         async function doLogin() {
@@ -117,20 +118,26 @@
             error.style.display = 'none';
 
             try {
-                const res = await fetch(API_BASE + '/login', {
+                const res = await apiFetch(API_BASE + '/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
                 const data = await res.json();
                 if (data.success) {
+                    if (data.user.VaiTro !== 'Quản lý') {
+                        showError('Chỉ tài khoản Quản lý mới được phép truy cập');
+                        return;
+                    }
                     localStorage.setItem('admin_user', JSON.stringify(data.user));
                     window.location.href = 'index.html';
                 } else {
                     showError(data.message || 'Sai tài khoản hoặc mật khẩu');
                 }
             } catch (e) {
-                showError('Không thể kết nối đến server');
+                if (!e.isConnectionError) {
+                    showError('Không thể kết nối đến server');
+                }
             } finally {
                 btn.disabled = false;
                 loading.style.display = 'none';
